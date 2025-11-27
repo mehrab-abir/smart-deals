@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router';
+import { AuthContext } from '../Context/Authentication/AuthContext';
 
 const Header = () => {
+
     return (
-        <div className='py-6 shadow-md bg-base fixed w-full top-0'>
+        <div className='py-6 shadow-md bg-base fixed w-full top-0 z-50'>
             <div className='w-11/12 mx-auto flex items-center justify-between'>
                 <h1 className='text-4xl font-bold'>Smart<span className='text-blue-800'>Deals</span></h1>
                 <nav className='flex gap-8 item-center'>
