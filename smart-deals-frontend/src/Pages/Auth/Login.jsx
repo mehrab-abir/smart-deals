@@ -1,11 +1,16 @@
-import React, { useState } from "react";
-import { Link } from "react-router";
+import React, { use, useState } from "react";
+import { Link, useNavigate } from "react-router";
+import { Bounce, ToastContainer, toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa6";
+import { AuthContext } from "../../Context/Authentication/AuthContext";
 
 const Login = () => {
+  const {loginUser,googleSignIn, setUser,setLoading} = use(AuthContext);
   const [showPassword, setShowPassword] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -13,11 +18,54 @@ const Login = () => {
     const email = form.email.value;
     const password = form.password.value;
 
-    console.log("Login",{email,password});
+    // console.log("Login",{email,password});
+
+    loginUser(email,password)
+    .then((result)=>{
+      const user = result.user;
+      setUser(user);
+      setLoading(false);
+      toast.success("Welcome Back!", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+              });
+      navigate('/');
+    })
+    .catch((error)=>toast.error(error));
+
+    form.reset();
   };
 
   //login with google
-  //---
+  //login with google
+    const handleGoogleLogin = () => {
+      googleSignIn()
+        .then((result) => {
+          const user = result.user;
+          setUser(user);
+          // console.log(user);
+          setLoading(false);
+          toast.success("Welcome!", {
+                    position: "top-center",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    theme: "light",
+                    transition: Bounce,
+                  });
+        })
+        .catch((error) => toast.error(error));
+    };
 
 
   return (
@@ -33,7 +81,10 @@ const Login = () => {
           </Link>
         </p>
 
-        <form onSubmit={(e)=>handleSubmit(e)} className="flex flex-col space-y-3 mt-4 px-4">
+        <form
+          onSubmit={(e) => handleSubmit(e)}
+          className="flex flex-col space-y-3 mt-4 px-4"
+        >
           <div>
             <label>
               Email
@@ -74,12 +125,28 @@ const Login = () => {
             Login
           </button>
           <p className="text-center">Or</p>
-          <button className="btn bg-white shadow-md">
+          <button
+            onClick={() => handleGoogleLogin()}
+            className="btn bg-white shadow-md"
+          >
             <FcGoogle className="text-xl" />
             Login with Google
           </button>
         </form>
       </div>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+        transition={Bounce}
+      />
     </div>
   );
 };
