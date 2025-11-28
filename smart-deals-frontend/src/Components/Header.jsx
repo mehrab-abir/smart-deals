@@ -42,7 +42,7 @@ const Header = () => {
         <div>
           {user ? (
             <div className="flex items-center gap-2">
-                <img src={userPicture} alt="" className="cursor-pointer" title={user.displayName} />
+                <img src={userPicture} alt="" className="cursor-pointer w-12 rounded-full" title={user.displayName} />
                 <button onClick={()=>handleSignOut()} className="btn  bg-white border-red-500 cursor-pointer hover:bg-red-500 hover:text-white">Log Out</button>
             </div> 
           ) : (

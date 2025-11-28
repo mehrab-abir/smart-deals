@@ -7,10 +7,10 @@ import { FaRegEyeSlash } from "react-icons/fa6";
 import { AuthContext } from "../../Context/Authentication/AuthContext";
 
 const Login = () => {
-  const {loginUser,googleSignIn, setUser,setLoading} = use(AuthContext);
-  const [showPassword, setShowPassword] = useState(false);
-
+  const { loginUser, googleSignIn, setUser, setLoading } = use(AuthContext);
   const navigate = useNavigate();
+
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -20,53 +20,73 @@ const Login = () => {
 
     // console.log("Login",{email,password});
 
-    loginUser(email,password)
-    .then((result)=>{
-      const user = result.user;
-      setUser(user);
-      setLoading(false);
-      toast.success("Welcome Back!", {
-                position: "top-center",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                theme: "light",
-                transition: Bounce,
-              });
-      navigate('/');
-    })
-    .catch((error)=>toast.error(error));
+    loginUser(email, password)
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        setLoading(false);
+        toast.success("Welcome Back!", {
+          position: "top-center",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+        navigate("/");
+      })
+      .catch((error) => toast.error(error));
 
     form.reset();
   };
 
   //login with google
-  //login with google
-    const handleGoogleLogin = () => {
-      googleSignIn()
-        .then((result) => {
-          const user = result.user;
-          setUser(user);
-          // console.log(user);
-          setLoading(false);
-          toast.success("Welcome!", {
-                    position: "top-center",
-                    autoClose: 5000,
-                    hideProgressBar: false,
-                    closeOnClick: true,
-                    pauseOnHover: true,
-                    draggable: true,
-                    progress: undefined,
-                    theme: "light",
-                    transition: Bounce,
-                  });
-        })
-        .catch((error) => toast.error(error));
-    };
+  const handleGoogleLogin = () => {
+    googleSignIn()
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        // console.log(user);
+        const newUser = {
+          name: user.displayName,
+          email: user.email,
+          image: user.photoURL,
+        };
 
+        //save this user to database
+        fetch("http://localhost:3000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        })
+          .then((afterPost) => afterPost.json())
+          .then((afterPost) => {
+            if (afterPost.insertedId) {
+              toast.success("Welcome!", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+              });
+            }
+          });
+      })
+      .catch((error) => toast.error(error))
+      .finally(() => {
+        setLoading(false);
+        navigate("/");
+      });
+  };
 
   return (
     <div className="flex items-center justify-center pt-32 my-10">

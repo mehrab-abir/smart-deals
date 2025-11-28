@@ -8,7 +8,6 @@ import { AuthContext } from "../../Context/Authentication/AuthContext";
 
 const Register = () => {
   const {registerUser,updateUserProfile, googleSignIn, setUser, setLoading } = useContext(AuthContext);
-
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
@@ -28,22 +27,46 @@ const Register = () => {
       return updateUserProfile({displayName,photoURL}).then(()=>{
         const user = result.user;
         setUser({...user,displayName,photoURL});
-        setLoading(false);
-        navigate('/');
-        toast.success("Registered Successfully!", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-        });
+
+        const newUser = {
+          name: user.displayName,
+          email: user.email,
+          image: user.photoURL || null,
+          password : password
+        };
+
+        //save this user to database
+        fetch("http://localhost:3000/users", {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(newUser),
+        })
+          .then((afterPost) => afterPost.json())
+          .then((afterPost) => {
+            if (afterPost.insertedId) {
+              toast.success("Welcome!", {
+                position: "top-center",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+                theme: "light",
+                transition: Bounce,
+              });
+              // console.log(afterPost);
+            }
+          });
       })
     })
-    .catch((error)=>toast.error(error));
+    .catch((error)=>toast.error(error))
+    .finally(()=>{
+      setLoading(false);
+      navigate("/")
+    })
 
     form.reset();
   };
@@ -55,20 +78,43 @@ const Register = () => {
         const user = result.user;
         setUser(user);
         // console.log(user);
-        setLoading(false);
-        toast.success("Welcome!", {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: false,
-          closeOnClick: true,
-          pauseOnHover: true,
-          draggable: true,
-          progress: undefined,
-          theme: "light",
-          transition: Bounce,
-        });
+        const newUser = {
+          name : user.displayName,
+          email : user.email,
+          image : user.photoURL
+        }
+
+        //save this user to database
+        fetch("http://localhost:3000/users",{
+          method : 'POST',
+          headers : {
+            'content-type' : 'application/json'
+          },
+          body : JSON.stringify(newUser)
+        })
+        .then((afterPost)=>afterPost.json())
+        .then((afterPost)=>{
+          if(afterPost.insertedId){
+            toast.success("Welcome!", {
+              position: "top-center",
+              autoClose: 5000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: false,
+              draggable: true,
+              progress: undefined,
+              theme: "light",
+              transition: Bounce,
+            });
+            // console.log(afterPost);
+          }
+        })
       })
-      .catch((error) => toast.error(error));
+      .catch((error) => toast.error(error))
+      .finally(()=>{
+        setLoading(false);
+        navigate("/");
+      })
   };
 
   return (
@@ -153,7 +199,7 @@ const Register = () => {
             Register
           </button>
           <p className="text-center">Or</p>
-          <button
+          <button type="button"
             onClick={() => handleGoogleLogin()}
             className="btn bg-white shadow-md"
           >
@@ -167,11 +213,11 @@ const Register = () => {
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
-        closeOnClick
+        closeOnClick={true}
         rtl={false}
         pauseOnFocusLoss
         draggable
-        pauseOnHover
+        pauseOnHover={false}
         theme="light"
         transition={Bounce}
       />
