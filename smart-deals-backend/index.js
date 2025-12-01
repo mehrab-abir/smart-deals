@@ -1,7 +1,8 @@
 const express = require('express');
 const app = express();
+require('dotenv').config();
 const cors = require('cors');
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const products = require('./products.json')
 const port = process.env.PORT || 3000;
 
@@ -12,13 +13,9 @@ app.get('/',(req,res)=>{
     res.send("Server is running");
 })
 
-app.get('/products',(req,res)=>{
-    res.send(products)
-})
-
 //smart-deals-user
 //qKPq6WGWAMc6eJ36
-const uri = "mongodb+srv://smart-deals-user:qKPq6WGWAMc6eJ36@cluster0.zvein0m.mongodb.net/?appName=Cluster0";
+const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.zvein0m.mongodb.net/?appName=Cluster0`;
 
 const client = new MongoClient(uri, {
     serverApi: {
@@ -34,6 +31,21 @@ async function run(){
 
         const db = client.db("smart-deals-db");
         const usersCollection = db.collection("users")
+        const productCollection = db.collection('products');
+
+        //products api
+        app.get('/products',async (req,res)=>{
+            const productCursor = productCollection.find();
+            const products = await productCursor.toArray();
+            res.send(products);
+        })
+
+        //single product
+        app.get('/products/:id',async (req,res)=>{
+            const id = req.params.id;
+            const singleProduct = await productCollection.findOne({_id: new ObjectId(id)});
+            res.send(singleProduct);
+        })
 
         //save user to db
         app.post('/users',async (req,res)=>{

@@ -4,6 +4,7 @@ import SingleProduct from '../Products/SingleProduct';
 
 const RecentProducts = () => {
     const products = useLoaderData();
+    
     return (
         <div className='w-11/12 mx-auto my-10'>
             <div className='w-11/12 mx-auto'>
