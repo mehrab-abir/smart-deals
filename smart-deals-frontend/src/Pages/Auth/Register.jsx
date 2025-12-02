@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
 import { FaRegEye } from "react-icons/fa6";
@@ -7,8 +7,10 @@ import { FaRegEyeSlash } from "react-icons/fa6";
 import { AuthContext } from "../../Context/Authentication/AuthContext";
 
 const Register = () => {
-  const {registerUser,updateUserProfile, googleSignIn, setUser, setLoading } = useContext(AuthContext);
+  const { registerUser, updateUserProfile, googleSignIn, setUser, setLoading } =
+    useContext(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -22,18 +24,82 @@ const Register = () => {
 
     // console.log({ displayName, email, password, photoURL });
 
-    registerUser(email,password)
-    .then((result)=>{
-      return updateUserProfile({displayName,photoURL}).then(()=>{
-        const user = result.user;
-        setUser({...user,displayName,photoURL});
+    registerUser(email, password)
+      .then((result) => {
+        return updateUserProfile({ displayName, photoURL }).then(() => {
+          const user = result.user;
+          setUser({ ...user, displayName, photoURL });
 
+          const newUser = {
+            name: user.displayName,
+            email: user.email,
+            image: user.photoURL || null,
+            password: password,
+          };
+
+          navigate(location.state || "/");
+
+          //save this user to database
+          fetch("http://localhost:3000/users", {
+            method: "POST",
+            headers: {
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(newUser),
+          })
+            .then((afterPost) => afterPost.json())
+            .then((afterPost) => {
+              if (afterPost.insertedId) {
+                toast.success("Welcome!", {
+                  position: "top-right",
+                  autoClose: 5000,
+                  hideProgressBar: false,
+                  closeOnClick: true,
+                  pauseOnHover: false,
+                  draggable: true,
+                  progress: undefined,
+                  theme: "light",
+                  transition: Bounce,
+                });
+                // console.log(afterPost);
+              }
+            });
+        });
+      })
+      .catch((error) => {
+        toast.error(`${error}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+
+    form.reset();
+  };
+
+  //login with google
+  const handleGoogleLogin = () => {
+    googleSignIn()
+      .then((result) => {
+        const user = result.user;
+        setUser(user);
+        // console.log(user);
         const newUser = {
           name: user.displayName,
           email: user.email,
-          image: user.photoURL || null,
-          password : password
+          image: user.photoURL,
         };
+
+        navigate(location.state || "/");
 
         //save this user to database
         fetch("http://localhost:3000/users", {
@@ -47,7 +113,7 @@ const Register = () => {
           .then((afterPost) => {
             if (afterPost.insertedId) {
               toast.success("Welcome!", {
-                position: "top-center",
+                position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -61,60 +127,22 @@ const Register = () => {
             }
           });
       })
-    })
-    .catch((error)=>toast.error(error))
-    .finally(()=>{
-      setLoading(false);
-      navigate("/")
-    })
-
-    form.reset();
-  };
-
-  //login with google
-  const handleGoogleLogin = () => {
-    googleSignIn()
-      .then((result) => {
-        const user = result.user;
-        setUser(user);
-        // console.log(user);
-        const newUser = {
-          name : user.displayName,
-          email : user.email,
-          image : user.photoURL
-        }
-
-        //save this user to database
-        fetch("http://localhost:3000/users",{
-          method : 'POST',
-          headers : {
-            'content-type' : 'application/json'
-          },
-          body : JSON.stringify(newUser)
-        })
-        .then((afterPost)=>afterPost.json())
-        .then((afterPost)=>{
-          if(afterPost.insertedId){
-            toast.success("Welcome!", {
-              position: "top-center",
-              autoClose: 5000,
-              hideProgressBar: false,
-              closeOnClick: true,
-              pauseOnHover: false,
-              draggable: true,
-              progress: undefined,
-              theme: "light",
-              transition: Bounce,
-            });
-            // console.log(afterPost);
-          }
-        })
+      .catch((error) => {
+        toast.error(`${error}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
       })
-      .catch((error) => toast.error(error))
-      .finally(()=>{
+      .finally(() => {
         setLoading(false);
-        navigate("/");
-      })
+      });
   };
 
   return (
@@ -199,7 +227,8 @@ const Register = () => {
             Register
           </button>
           <p className="text-center">Or</p>
-          <button type="button"
+          <button
+            type="button"
             onClick={() => handleGoogleLogin()}
             className="btn bg-white shadow-md"
           >
@@ -209,11 +238,11 @@ const Register = () => {
         </form>
       </div>
       <ToastContainer
-        position="top-center"
+        position="top-right"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
-        closeOnClick={true}
+        closeOnClick
         rtl={false}
         pauseOnFocusLoss
         draggable

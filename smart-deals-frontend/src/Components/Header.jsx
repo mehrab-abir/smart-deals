@@ -25,26 +25,47 @@ const Header = () => {
         <h1 className="text-4xl font-bold">
           Smart<span className="text-blue-800">Deals</span>
         </h1>
-        <nav className="flex gap-8 item-center">
+        <nav className="hidden md:flex gap-8 item-center">
           <NavLink to="/" className="text-lg">
             Home
           </NavLink>
           <NavLink to="/products" className="text-lg">
-            Products
+            All Products
           </NavLink>
-          <NavLink to="/myproducts" className="text-lg">
-            My Products
-          </NavLink>
-          <NavLink to="/mybids" className="text-lg">
-            My Bids
+          {user ? (
+            <NavLink to="/myproducts" className="text-lg">
+              My Products
+            </NavLink>
+          ) : (
+            ""
+          )}
+          {user ? (
+            <NavLink to="/mybids" className="text-lg">
+              My Bids
+            </NavLink>
+          ) : (
+            ""
+          )}
+          <NavLink to="/postproduct" className="text-lg">
+            Post a Product
           </NavLink>
         </nav>
         <div>
           {user ? (
             <div className="flex items-center gap-2">
-                <img src={userPicture} alt="" className="cursor-pointer w-12 rounded-full" title={user.displayName} />
-                <button onClick={()=>handleSignOut()} className="btn  bg-white border-red-500 cursor-pointer hover:bg-red-500 hover:text-white">Log Out</button>
-            </div> 
+              <img
+                src={userPicture}
+                alt=""
+                className="cursor-pointer w-12 rounded-full"
+                title={user.displayName}
+              />
+              <button
+                onClick={() => handleSignOut()}
+                className="btn  bg-white border-red-500 cursor-pointer hover:bg-red-500 hover:text-white"
+              >
+                Log Out
+              </button>
+            </div>
           ) : (
             <div>
               <Link

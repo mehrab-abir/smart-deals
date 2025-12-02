@@ -9,6 +9,9 @@ import Login from "../Pages/Auth/Login";
 import Register from "../Pages/Auth/Register";
 import ErrorPage from "../Components/ErrorPage";
 import CustomLoader from "../Components/CustomLoader";
+import ProductDetails from "../Pages/Products/ProductDetails";
+import PostProduct from "../Pages/Products/PostProduct";
+import PrivateRoute from "./PrivateRoute";
 
 const router = createBrowserRouter([
   {
@@ -19,13 +22,19 @@ const router = createBrowserRouter([
         index: true,
         Component: Home,
         loader: () => fetch("http://localhost:3000/products"),
-        hydrateFallbackElement : <CustomLoader></CustomLoader>
+        hydrateFallbackElement: <CustomLoader></CustomLoader>,
       },
       {
         path: "products",
         Component: Products,
         loader: () => fetch("http://localhost:3000/products"),
-        hydrateFallbackElement : <CustomLoader></CustomLoader>
+        hydrateFallbackElement: <CustomLoader></CustomLoader>,
+      },
+      {
+        path: "products/:id",
+        Component: ProductDetails,
+        loader: ({ params }) => fetch(`http://localhost:3000/products/${params.id}`),
+        hydrateFallbackElement: <CustomLoader></CustomLoader>
       },
       {
         path: "myproducts",
@@ -35,6 +44,12 @@ const router = createBrowserRouter([
         path: "mybids",
         Component: MyBids,
       },
+      {
+        path : "postproduct",
+        element : <PrivateRoute>
+          <PostProduct></PostProduct>
+        </PrivateRoute>
+      }
     ],
   },
   {

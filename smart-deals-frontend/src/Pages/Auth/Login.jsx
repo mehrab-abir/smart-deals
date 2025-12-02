@@ -1,5 +1,5 @@
 import React, { use, useState } from "react";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import { FcGoogle } from "react-icons/fc";
 import { FaRegEye } from "react-icons/fa6";
@@ -9,6 +9,7 @@ import { AuthContext } from "../../Context/Authentication/AuthContext";
 const Login = () => {
   const { loginUser, googleSignIn, setUser, setLoading } = use(AuthContext);
   const navigate = useNavigate();
+  const location = useLocation();
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -26,19 +27,31 @@ const Login = () => {
         setUser(user);
         setLoading(false);
         toast.success("Welcome Back!", {
-          position: "top-center",
+          position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
           closeOnClick: true,
-          pauseOnHover: true,
+          pauseOnHover: false,
           draggable: true,
           progress: undefined,
           theme: "light",
           transition: Bounce,
         });
-        navigate("/");
+        navigate(location.state || "/");
       })
-      .catch((error) => toast.error(error));
+      .catch((error) => {
+        toast.error(`${error}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      });
 
     form.reset();
   };
@@ -55,6 +68,7 @@ const Login = () => {
           email: user.email,
           image: user.photoURL,
         };
+        navigate(location.state || "/");
 
         //save this user to database
         fetch("http://localhost:3000/users", {
@@ -68,7 +82,7 @@ const Login = () => {
           .then((afterPost) => {
             if (afterPost.insertedId) {
               toast.success("Welcome!", {
-                position: "top-center",
+                position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
                 closeOnClick: true,
@@ -81,10 +95,21 @@ const Login = () => {
             }
           });
       })
-      .catch((error) => toast.error(error))
+      .catch((error) => {
+        toast.error(`${error}`, {
+          position: "top-right",
+          autoClose: 5000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: false,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+          transition: Bounce,
+        });
+      })
       .finally(() => {
         setLoading(false);
-        navigate("/");
       });
   };
 
@@ -155,7 +180,7 @@ const Login = () => {
         </form>
       </div>
       <ToastContainer
-        position="top-center"
+        position="top-right"
         autoClose={5000}
         hideProgressBar={false}
         newestOnTop={false}
@@ -163,7 +188,7 @@ const Login = () => {
         rtl={false}
         pauseOnFocusLoss
         draggable
-        pauseOnHover
+        pauseOnHover={false}
         theme="light"
         transition={Bounce}
       />

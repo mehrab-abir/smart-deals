@@ -4,21 +4,27 @@ import SingleProduct from '../Products/SingleProduct';
 
 const RecentProducts = () => {
     const products = useLoaderData();
+    products.splice(6,19);
     
     return (
-        <div className='w-11/12 mx-auto my-10'>
-            <div className='w-11/12 mx-auto'>
-                <h1 className="text-4xl font-bold text-center mb-6">Recent <span className='text-blue-800'>Products</span></h1>
-            </div>
-
-            <div className='grid grid-cols-3 gap-6'>
-                {
-                    products.map((product)=>{
-                        return <SingleProduct key={product._id} product={product}></SingleProduct>
-                    })
-                }
-            </div>
+      <div className="w-11/12 mx-auto my-10">
+        <div className="w-11/12 mx-auto">
+          <h1 className="text-4xl font-bold text-center mb-6">
+            Recent <span className="text-blue-800">Products</span>
+          </h1>
         </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          {products.map((product) => {
+            return (
+              <SingleProduct
+                key={product._id}
+                product={product}
+              ></SingleProduct>
+            );
+          })}
+        </div>
+      </div>
     );
 };
 

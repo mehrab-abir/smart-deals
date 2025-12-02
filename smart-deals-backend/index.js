@@ -13,8 +13,6 @@ app.get('/',(req,res)=>{
     res.send("Server is running");
 })
 
-//smart-deals-user
-//qKPq6WGWAMc6eJ36
 const uri = `mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@cluster0.zvein0m.mongodb.net/?appName=Cluster0`;
 
 const client = new MongoClient(uri, {
@@ -35,7 +33,7 @@ async function run(){
 
         //products api
         app.get('/products',async (req,res)=>{
-            const productCursor = productCollection.find();
+            const productCursor = productCollection.find().sort({created_at : -1});
             const products = await productCursor.toArray();
             res.send(products);
         })

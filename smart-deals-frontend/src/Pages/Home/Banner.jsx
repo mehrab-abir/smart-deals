@@ -5,7 +5,7 @@ const Banner = () => {
       <div className="py-10 bg-[#c6baf7] bg-[linear-gradient(167deg,rgba(198,186,247,1)_10%,rgba(255,255,255,1)_95%)] pt-28">
         <div className="w-11/12 mx-auto flex items-center justify-center text-center">
           <div className='flex flex-col items-center justify-center py-5'>
-            <h1 className="text-5xl font-bold w-[60%] mb-2">
+            <h1 className="text-3xl md:text-5xl font-bold w-[90%] md:w-[60%] mb-2">
               Deal Your <span className="text-blue-800">Products </span>
               In a <span className="text-blue-800">Smart </span>Way!
             </h1>
