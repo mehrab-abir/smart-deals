@@ -30,6 +30,7 @@ async function run(){
         const db = client.db("smart-deals-db");
         const usersCollection = db.collection("users")
         const productCollection = db.collection('products');
+        const bidsCollection = db.collection("bids");
 
         //products api
         app.get('/products',async (req,res)=>{
@@ -57,6 +58,13 @@ async function run(){
                 const afterPost = await usersCollection.insertOne(newUser);
             res.send(afterPost);
             }
+        })
+
+        //post a bid
+        app.post('/bids',async(req,res)=>{
+            const newBid = req.body;
+            const afterPost = await bidsCollection.insertOne(newBid);
+            res.send(afterPost);
         })
 
 

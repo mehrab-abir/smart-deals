@@ -1,10 +1,18 @@
 import React from "react";
-import { Link, useLoaderData } from "react-router";
+import { Link, useLoaderData, useNavigate } from "react-router";
 import { FaArrowLeft } from "react-icons/fa";
+import { useRef } from "react";
+import { use } from "react";
+import { AuthContext } from "../../Context/Authentication/AuthContext";
+import Swal from "sweetalert2";
 
 const ProductDetails = () => {
+  const {user,setLoading} = use(AuthContext);
+  const navigate = useNavigate();
+
   const product = useLoaderData();
   const {
+    _id,
     title,
     price_min,
     price_max,
@@ -21,6 +29,63 @@ const ProductDetails = () => {
     description,
     seller_contact,
   } = product;
+
+  const bidModalRef = useRef();
+
+  //open bid modal box
+  const openBidModal = () =>{
+    if(!user){
+      navigate("/auth/login");
+    }
+    bidModalRef.current.showModal();
+  }
+
+  const submitBid = (e) =>{
+    e.preventDefault();
+    const form = e.target;
+
+    const bidder_name = form.bidder_name.value;
+    const bidder_email = form.bidder_email.value;
+    const bidder_img = form.bidder_img.value;
+    const bid_price = form.bid_price.value;
+    const bidder_phone = form.bidder_contact.value;
+
+    // console.log({bidder_name,bidder_email,photo_URL,bid_price,bidder_phone});
+
+    const newBid = {
+      productID : _id,
+      bidder_name,
+      bidder_email,
+      bidder_img,
+      bid_price,
+      bidder_phone
+    }
+
+    // console.log(newBid);
+
+    //post this bid
+    setLoading(true);
+    fetch("http://localhost:3000/bids",{
+      method : "POST",
+      headers : {
+        'content-type' : 'application/json'
+      },
+      body : JSON.stringify(newBid)
+    })
+    .then(res=>res.json())
+    .then(afterPost=>{
+      if(afterPost.insertedId){
+        Swal.fire({
+          title: "Your bid has been submitted",
+          icon: "success",
+        });
+      }
+    })
+    .finally(()=>{
+      setLoading(false);
+      bidModalRef.current.close();
+    })
+  }
 
   return (
     <div className="w-11/12 mx-auto pt-28 mb-10">
@@ -83,15 +148,15 @@ const ProductDetails = () => {
               </p>
             </div>
           </div>
-          <Link
-            to=""
+          <button
+            onClick={() => openBidModal()}
             className="btn w-full h-fit py-2 text-white bg-blue-700 mt-4 hidden md:block hover:bg-blue-500"
           >
             Bid For This Product
-          </Link>
+          </button>
           <button
             to=""
-            className="btn w-full text-blue-600 border border-blue-600 bg-white mt-4 md:block"
+            className="btn w-full text-blue-600 border border-blue-600 bg-white mt-4 hidden md:block"
           >
             Add To Wishlist
           </button>
@@ -108,12 +173,14 @@ const ProductDetails = () => {
             </p>
           </div>
           <p className="text-gray-600 mt-3 text-sm">{description}</p>
-          <Link
-            to=""
+
+          {/* in small device  */}
+          <button
+            onClick={() => openBidModal()}
             className="btn w-full text-white bg-blue-700 mt-4 md:hidden"
           >
             Bid For This Product
-          </Link>
+          </button>
           <button
             to=""
             className="btn w-full text-blue-600 border border-blue-600 bg-white mt-4 md:hidden"
@@ -121,6 +188,86 @@ const ProductDetails = () => {
             Add To Wishlist
           </button>
         </div>
+
+        {/* bid modal box */}
+        <dialog ref={bidModalRef} className="modal">
+          <div className="modal-box">
+            <h3 className="font-bold text-2xl mb-5">Offer a Price</h3>
+
+            {/* form to provide bid info */}
+            <form onSubmit={(e)=>submitBid(e)}>
+              <div className="grid grid-cols-1 space-y-2.5">
+                <div className="justify-self-stretch">
+                  <label>Bidder Name:</label>
+                  <br />
+                  <input
+                    type="text"
+                    name="bidder_name"
+                    className="outline-none input w-full"
+                    readOnly
+                    defaultValue={user.displayName}
+                  />
+                </div>
+
+                <div className="justify-self-stretch">
+                  <label>Bidder Email:</label>
+                  <br />
+                  <input
+                    type="email"
+                    name="bidder_email"
+                    className="outline-none input w-full"
+                    readOnly
+                    defaultValue={user.email}
+                  />
+                </div>
+                <div className="justify-self-stretch">
+                  <label>Bidder image url:</label>
+                  <br />
+                  <input
+                    type="text"
+                    name="bidder_img"
+                    className="outline-none input w-full"
+                    readOnly
+                    defaultValue={user.photoURL}
+                  />
+                </div>
+
+                <div className="justify-self-stretch">
+                  <label>Place Your Price:</label>
+                  <br />
+                  <input
+                    type="text"
+                    name="bid_price"
+                    className="outline-none input w-full"
+                    placeholder="Bid Price"
+                    required
+                  />
+                </div>
+
+                <div className="justify-self-stretch">
+                  <label>Contact Info:</label>
+                  <br />
+                  <input
+                    type="text"
+                    name="bidder_contact"
+                    className="outline-none input w-full"
+                    placeholder="+1 647-253..."
+                    required
+                  />
+                </div>
+
+                {/* bid submit btn */}
+                <button type="submit" className="btn bg-cyan-900 text-white">
+                  Submit Your Bid
+                </button>
+
+              </div>
+            </form>
+          </div>
+          <form method="dialog" className="modal-backdrop">
+            <button>close</button>
+          </form>
+        </dialog>
       </div>
     </div>
   );
