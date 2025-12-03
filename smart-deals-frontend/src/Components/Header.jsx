@@ -26,27 +26,27 @@ const Header = () => {
           Smart<span className="text-blue-800">Deals</span>
         </h1>
         <nav className="hidden md:flex gap-8 item-center">
-          <NavLink to="/" className="text-lg">
+          <NavLink to="/" className="text-lg hover:underline hover:text-[#0094b5]">
             Home
           </NavLink>
-          <NavLink to="/products" className="text-lg">
+          <NavLink to="/products" className="text-lg hover:underline hover:text-[#0094b5]">
             All Products
           </NavLink>
           {user ? (
-            <NavLink to="/myproducts" className="text-lg">
+            <NavLink to="/myproducts" className="text-lg hover:underline hover:text-[#0094b5]">
               My Products
             </NavLink>
           ) : (
             ""
           )}
           {user ? (
-            <NavLink to="/mybids" className="text-lg">
+            <NavLink to="/mybids" className="text-lg hover:underline hover:text-[#0094b5]">
               My Bids
             </NavLink>
           ) : (
             ""
           )}
-          <NavLink to="/postproduct" className="text-lg">
+          <NavLink to="/postproduct" className="text-lg hover:underline hover:text-[#0094b5]">
             Post a Product
           </NavLink>
         </nav>

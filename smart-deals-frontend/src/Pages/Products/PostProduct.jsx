@@ -24,12 +24,13 @@ const PostProduct = () => {
               <div className="justify-self-stretch">
                 <label>Category:</label>
                 <br />
-                <input
-                  type="text"
-                  name="category"
-                  className="outline-none input w-full"
-                  placeholder="Select a category"
-                />
+                <select defaultValue="Select a category" className="select outline-none cursor-pointer w-full">
+                  <option disabled={true}>Select a category</option>
+                  <option>Electronics</option>
+                  <option>Vehicle</option>
+                  <option>Phone</option>
+                  <option>PC</option>
+                </select>
               </div>
               <div className="justify-self-stretch">
                 <label>Minimum Price You Want To Sale ($):</label>
@@ -106,7 +107,7 @@ const PostProduct = () => {
                   type="text"
                   name="seller-name"
                   className="outline-none input w-full"
-                  placeholder="Seller name..."
+                  placeholder="Your name..."
                   required
                 />
               </div>
@@ -118,7 +119,7 @@ const PostProduct = () => {
                   type="email"
                   name="seller_email"
                   className="outline-none input w-full"
-                  placeholder="Seller email"
+                  placeholder="Your email"
                   required
                 />
               </div>
@@ -129,7 +130,7 @@ const PostProduct = () => {
                   type="text"
                   name="seller_contact"
                   className="outline-none input w-full"
-                  placeholder="Seller phone no."
+                  placeholder="Your phone no."
                 />
               </div>
 
@@ -140,7 +141,7 @@ const PostProduct = () => {
                   type="text"
                   name="seller_img"
                   className="outline-none input w-full"
-                  placeholder="Seller photo url"
+                  placeholder="Your photo url"
                 />
               </div>
             </div>
@@ -170,7 +171,7 @@ const PostProduct = () => {
             </div>
 
             <button type="submit" className="btn bg-blue-900 text-white w-full">
-              Post This Product
+              Post
             </button>
           </form>
         </div>

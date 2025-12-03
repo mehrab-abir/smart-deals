@@ -83,7 +83,7 @@ async function run() {
                     {$match : {bidder_email : email}},
                     {
                         $lookup : {
-                            from : "products", //look for match 'product' in this collection
+                            from : "products", //look for matched product in 'products' collection
                             localField : "productId", //of 'bids'
                             foreignField : "_id", //from 'product'
                             as : "product", //make an array with the matched 'product' as "product"[array name -> product]
@@ -96,9 +96,16 @@ async function run() {
             }
             catch(err){
                 console.error(err);
-                res.status(500).send({message: "Failed to laod bids"});
+                res.status(500).send({message: "Failed to load bids"});
             }
             
+        })
+
+        //delete a bid from 'my bids'
+        app.delete('/mybids/:id',async(req,res)=>{
+            const id = req.params.id;
+            const afterDelete = await bidsCollection.deleteOne({_id : new ObjectId(id)});
+            res.send(afterDelete)
         })
 
         await client.db("admin").command({ ping: 1 });
