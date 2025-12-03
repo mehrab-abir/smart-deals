@@ -53,7 +53,7 @@ const ProductDetails = () => {
     // console.log({bidder_name,bidder_email,photo_URL,bid_price,bidder_phone});
 
     const newBid = {
-      productID : _id,
+      productId : _id,
       bidder_name,
       bidder_email,
       bidder_img,
