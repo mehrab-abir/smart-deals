@@ -46,6 +46,21 @@ async function run() {
             res.send(singleProduct);
         })
 
+        //Post a product
+        app.post('/products',async (req,res)=>{
+            const newProduct = req.body;
+            const afterPost = await productCollection.insertOne(newProduct);
+            res.send(afterPost)
+        })
+
+        //get my products
+        app.get('/myproducts',async(req,res)=>{
+            const email = req.query.email;
+            const productCursor = productCollection.find({email:email}).sort({created_at:1});
+            const myProducts = await productCursor.toArray();
+            res.send(myProducts);
+        })
+
         //save user to db
         app.post('/users', async (req, res) => {
             const newUser = req.body;
@@ -67,7 +82,6 @@ async function run() {
             const bidToInsert = {
                 ...bidBody,
                 productId: new ObjectId(bidBody.productId),
-                created_at: new Date()
             }
             const afterPost = await bidsCollection.insertOne(bidToInsert);
             res.send(afterPost);
@@ -106,6 +120,14 @@ async function run() {
             const id = req.params.id;
             const afterDelete = await bidsCollection.deleteOne({_id : new ObjectId(id)});
             res.send(afterDelete)
+        })
+
+        //get all bids of a product
+        app.get('/bids/:id',async(req,res)=>{
+            const id = req.params.id;
+            const cursor = bidsCollection.find({productId:new ObjectId(id)});
+            const bids = await cursor.toArray();
+            res.send(bids);
         })
 
         await client.db("admin").command({ ping: 1 });

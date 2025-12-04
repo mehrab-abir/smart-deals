@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useLoaderData, useNavigate } from "react-router";
 import { FaArrowLeft } from "react-icons/fa";
 import { useRef } from "react";
@@ -7,8 +7,10 @@ import { AuthContext } from "../../Context/Authentication/AuthContext";
 import Swal from "sweetalert2";
 
 const ProductDetails = () => {
-  const {user,setLoading} = use(AuthContext);
+  const { user, setLoading } = use(AuthContext);
   const navigate = useNavigate();
+
+  const [productBids, setProductBids] = useState([]);
 
   const product = useLoaderData();
   const {
@@ -33,14 +35,14 @@ const ProductDetails = () => {
   const bidModalRef = useRef();
 
   //open bid modal box
-  const openBidModal = () =>{
-    if(!user){
+  const openBidModal = () => {
+    if (!user) {
       navigate("/auth/login");
     }
     bidModalRef.current.showModal();
-  }
+  };
 
-  const submitBid = (e) =>{
+  const submitBid = (e) => {
     e.preventDefault();
     const form = e.target;
 
@@ -53,39 +55,58 @@ const ProductDetails = () => {
     // console.log({bidder_name,bidder_email,photo_URL,bid_price,bidder_phone});
 
     const newBid = {
-      productId : _id,
+      productId: _id,
       bidder_name,
       bidder_email,
       bidder_img,
       bid_price,
-      bidder_phone
-    }
+      bidder_phone,
+      created_at: new Date(),
+    };
 
     // console.log(newBid);
 
     //post this bid
     setLoading(true);
-    fetch("http://localhost:3000/bids",{
-      method : "POST",
-      headers : {
-        'content-type' : 'application/json'
+    fetch("http://localhost:3000/bids", {
+      method: "POST",
+      headers: {
+        "content-type": "application/json",
       },
-      body : JSON.stringify(newBid)
+      body: JSON.stringify(newBid),
     })
+      .then((res) => res.json())
+      .then((afterPost) => {
+        if (afterPost.insertedId) {
+          Swal.fire({
+            title: "Your bid has been submitted",
+            icon: "success",
+          });
+          const postedBid = {
+            _id : afterPost.insertedId, ...newBid
+          }
+          setProductBids(prev => [...prev,postedBid])
+        }
+      })
+      .finally(() => {
+        setLoading(false);
+        bidModalRef.current.close();
+      });
+  };
+
+  //all bids of the current product
+  useEffect(()=>{
+    fetch(`http://localhost:3000/bids/${_id}`)
     .then(res=>res.json())
-    .then(afterPost=>{
-      if(afterPost.insertedId){
-        Swal.fire({
-          title: "Your bid has been submitted",
-          icon: "success",
-        });
-      }
-    })
-    .finally(()=>{
-      setLoading(false);
-      bidModalRef.current.close();
-    })
-  }
+    .then(data=>setProductBids(data))
+    .catch(err=>console.log(err));
+  },[_id])
+
+  const noBidsMsg = (
+    <h1 className="text-red-400 text-center text-xl font-semibold mt-10">
+      -No bid(s) for this product yet-
+    </h1>
+  );
 
   return (
     <div className="w-11/12 mx-auto pt-28 mb-10">
@@ -120,7 +141,7 @@ const ProductDetails = () => {
 
           <div className="bg-white text-black mt-4 p-4 rounded-md">
             <h4 className="text-lg">
-              <span className="font-bold">Posted:</span> {created_at}
+              <span className="font-bold">Posted:</span> {new Date(created_at).toLocaleString()}
             </h4>
           </div>
 
@@ -195,7 +216,7 @@ const ProductDetails = () => {
             <h3 className="font-bold text-2xl mb-5">Offer a Price</h3>
 
             {/* form to provide bid info */}
-            <form onSubmit={(e)=>submitBid(e)}>
+            <form onSubmit={(e) => submitBid(e)}>
               <div className="grid grid-cols-1 space-y-2.5">
                 <div className="justify-self-stretch">
                   <label>Bidder Name:</label>
@@ -205,7 +226,7 @@ const ProductDetails = () => {
                     name="bidder_name"
                     className="outline-none input w-full"
                     readOnly
-                    defaultValue={user.displayName}
+                    defaultValue={user?.displayName}
                   />
                 </div>
 
@@ -217,7 +238,7 @@ const ProductDetails = () => {
                     name="bidder_email"
                     className="outline-none input w-full"
                     readOnly
-                    defaultValue={user.email}
+                    defaultValue={user?.email}
                   />
                 </div>
                 <div className="justify-self-stretch">
@@ -228,7 +249,7 @@ const ProductDetails = () => {
                     name="bidder_img"
                     className="outline-none input w-full"
                     readOnly
-                    defaultValue={user.photoURL}
+                    defaultValue={user?.photoURL}
                   />
                 </div>
 
@@ -260,7 +281,6 @@ const ProductDetails = () => {
                 <button type="submit" className="btn bg-cyan-900 text-white">
                   Submit Your Bid
                 </button>
-
               </div>
             </form>
           </div>
@@ -268,6 +288,65 @@ const ProductDetails = () => {
             <button>close</button>
           </form>
         </dialog>
+      </div>
+
+
+
+      {/* bids of this product  */}
+      <div className="mt-10">
+        <h1 className="text-2xl font-bold">
+          Bid of This Product ({productBids.length})
+        </h1>
+
+        <div className="overflow-scroll mt-10 bg-white min-h-[50vh]">
+          {productBids.length === 0 ? (
+            noBidsMsg
+          ) : (
+            <table className="table">
+              {/* head */}
+              <thead>
+                <tr>
+                  <th>SI No.</th>
+                  <th>Bidder Name</th>
+                  <th>Bid Price</th>
+                  <th>Date</th>
+                </tr>
+              </thead>
+
+              <tbody>
+                {productBids.map((bid, index) => {
+                  return (
+                    <tr key={bid._id}>
+                      <td>{index + 1}</td>
+
+                      <td>
+                        <p className="text-lg">
+                          {bid.bidder_name}
+                        </p>
+                      </td>
+
+                      <td className="text-lg">{bid.bid_price}</td>
+                      {/* <td>
+                        <div
+                          className={`badge badge-outline ${
+                            bid.product.status.toUpperCase() === "PENDING"
+                              ? "badge-warning"
+                              : "badge-success"
+                          }`}
+                        >
+                          {bid.product.status.toUpperCase()}
+                        </div>
+                      </td> */}
+                      <td className="text-lg">
+                        {new Date(bid.created_at).toLocaleString()}
+                      </td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            </table>
+          )}
+        </div>
       </div>
     </div>
   );
