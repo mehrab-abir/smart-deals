@@ -4,17 +4,62 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { AuthContext } from "../../Context/Authentication/AuthContext";
 import Swal from "sweetalert2";
+import CustomLoader from "../../Components/CustomLoader";
 
 const MyBids = () => {
-  const { user } = use(AuthContext);
+  const { user,loading } = use(AuthContext);
 
   const [bids, setBids] = useState([]);
 
+  // console.log(user);
+
   useEffect(() => {
-    fetch(`http://localhost:3000/mybids?email=${user?.email}`)
+    if (loading) return;
+
+    const loadBids = async () => {
+      try {
+        const token = await user.getIdToken(); 
+
+        const res = await fetch(
+          `http://localhost:3000/mybids?email=${user.email}`,
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        // console.log(token);
+
+        if (!res.ok) {
+          console.error("Failed to fetch bids:", res.status);
+          return;
+        }
+
+        const data = await res.json();
+        setBids(data);
+      } catch (err) {
+        console.error("Error loading bids:", err);
+      }
+    };
+
+    loadBids();
+  }, [user,loading]);
+
+  if (loading) {
+    return <CustomLoader></CustomLoader>;
+  }
+
+
+ /*  useEffect(() => {
+    fetch(`http://localhost:3000/mybids?email=${user?.email}`,{
+      headers : {
+        authorization : `Bearer ${user.accessToken}`
+      }
+    })
       .then((res) => res.json())
       .then((data) => setBids(data));
-  }, [user?.email]);
+  }, [user]); */
 
   // console.log(bids);
 

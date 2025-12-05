@@ -3,11 +3,46 @@ const app = express();
 require('dotenv').config();
 const cors = require('cors');
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
-const products = require('./products.json')
+const admin = require("firebase-admin");
 const port = process.env.PORT || 3000;
 
+const serviceAccount = require("./smart-deals-firebase-admin-key.json");
+
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount)
+});
+
+
+//middleware for all
 app.use(express.json());
 app.use(cors());
+
+//middleware for token verification --for some specific route
+const verifyFirebaseToken = async (req,res,next) =>{
+    if (!req.headers.authorization){
+        return res.status(401).send({message: "unauthorized access"});
+    }
+    
+    const token = req.headers.authorization.split(' ')[1];
+
+    if(!token){
+        return res.status(401).send({ message: "unauthorized access" });
+    }
+
+    //validate token
+    try{
+        const decode = await admin.auth().verifyIdToken(token);
+        // console.log("After token validation: ",decode); //decoded
+        req.token_email = decode.email;
+
+        //proceed to the next process,,whatever it is in the api definition
+        next();
+    }
+    catch{
+        return res.status(401).send({ message: "unauthorized access" });
+    }
+}
+
 
 app.get('/', (req, res) => {
     res.send("Server is running");
@@ -54,8 +89,13 @@ async function run() {
         })
 
         //get my products
-        app.get('/myproducts',async(req,res)=>{
+        app.get('/myproducts',verifyFirebaseToken, async(req,res)=>{
             const email = req.query.email;
+
+            if(email !== req.token_email){
+                return res.status(403).send({message : "forbidden access"});
+            }
+
             const productCursor = productCollection.find({email:email}).sort({created_at:1});
             const myProducts = await productCursor.toArray();
             res.send(myProducts);
@@ -88,9 +128,15 @@ async function run() {
         })
 
         //join bid document with matched product and send to frontend
-        app.get('/mybids',async(req, res) => {
+        app.get('/mybids',verifyFirebaseToken, async(req, res) => {
             try {
+                // console.log('headers',req.headers);
+
                 const email = req.query.email;
+
+                if(email !== req.token_email){
+                    return res.status(403).send({message: "forbidden access"});
+                }
                 
                 //join bid documents with the corresponding product document
                 const result = await bidsCollection.aggregate([

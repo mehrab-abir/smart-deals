@@ -1,16 +1,54 @@
 import React, { use, useEffect, useState } from 'react';
 import { AuthContext } from '../../Context/Authentication/AuthContext';
+import CustomLoader from '../../Components/CustomLoader';
 
 const MyProducts = () => {
-  const { user } = use(AuthContext);
+  const { user,loading} = use(AuthContext);
   const [myProducts, setMyProducts] = useState([]);
 
+  // console.log("In my products page: ", user);
+
   useEffect(() => {
-    fetch(`http://localhost:3000/myproducts?email=${user?.email}`)
+    if (loading) return;
+
+    const loadProducts = async () => {
+      try {
+        const token = await user.getIdToken();
+
+        const res = await fetch(
+          `http://localhost:3000/myproducts?email=${user.email}`,
+          {
+            headers: {
+              authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await res.json();
+        setMyProducts(data);
+      } catch (err) {
+        console.error("Error loading products:", err);
+      }
+    };
+
+    loadProducts();
+  }, [user,loading]);
+
+  if (loading) {
+    return <CustomLoader></CustomLoader>;
+  }
+
+
+  /* useEffect(() => {
+    fetch(`http://localhost:3000/myproducts?email=${user?.email}`,{
+      headers : {
+        authorization: `Bearer ${user?.accessToken}`
+      }
+    })
       .then((res) => res.json())
       .then((data) => setMyProducts(data))
-      .catch((error) => alert(error));
-  }, [user?.email]);
+      .catch((error) => alert(error))
+  }, [user]); */
 
   //sort bids based on bid_price
   const sortProducts = (sortType) => {
@@ -25,7 +63,7 @@ const MyProducts = () => {
 
   const noProduct = (
     <h1 className="text-red-400 text-center text-xl font-semibold mt-10">
-      Bid(s) will appear here after you place bid for any product-
+      Product(s) will appear here after you post any product-
     </h1>
   );
 

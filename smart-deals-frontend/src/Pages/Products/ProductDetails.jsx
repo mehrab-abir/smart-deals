@@ -18,7 +18,6 @@ const ProductDetails = () => {
     title,
     price_min,
     price_max,
-    email,
     category,
     created_at,
     image,
@@ -155,9 +154,9 @@ const ProductDetails = () => {
               />
               <div>
                 <p className="font-bold">{seller_name}</p>
-                <p>
+                {/* <p>
                   <span className="font-semibold">Email:</span> {email}
-                </p>
+                </p> */}
               </div>
             </div>
             <div>
