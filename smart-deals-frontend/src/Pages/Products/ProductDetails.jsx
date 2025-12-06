@@ -128,7 +128,13 @@ const ProductDetails = () => {
             <p className="bg-blue-800 text-blue-100 px-2 rounded-md w-fit">
               {category.toUpperCase()}{" "}
             </p>
-            <p className="bg-blue-600 font-semibold px-2 w-fit rounded-md text-white">
+            <p
+              className={`${
+                status.toLowerCase() === "sold"
+                  ? `bg-green-600`
+                  : `bg-yellow-500`
+              } font-semibold px-2 w-fit rounded-md text-white`}
+            >
               {status.toUpperCase()}
             </p>
           </div>
@@ -140,7 +146,8 @@ const ProductDetails = () => {
 
           <div className="bg-white text-black mt-4 p-4 rounded-md">
             <h4 className="text-lg">
-              <span className="font-bold">Posted:</span> {new Date(created_at).toLocaleString()}
+              <span className="font-bold">Posted:</span>{" "}
+              {new Date(created_at).toLocaleString()}
             </h4>
           </div>
 
@@ -170,7 +177,8 @@ const ProductDetails = () => {
           </div>
           <button
             onClick={() => openBidModal()}
-            className="btn w-full h-fit py-2 text-white bg-blue-700 mt-4 hidden md:block hover:bg-blue-500"
+            className={`btn w-full h-fit py-2 text-white ${status.toLowerCase()==='sold' ? 'bg-blue-400' : 'bg-blue-700'} mt-4 hidden md:block hover:bg-blue-500`}
+            disabled={status.toLowerCase() === "sold"}
           >
             Bid For This Product
           </button>
@@ -198,6 +206,7 @@ const ProductDetails = () => {
           <button
             onClick={() => openBidModal()}
             className="btn w-full text-white bg-blue-700 mt-4 md:hidden"
+            disabled={status.toLowerCase() === "sold"}
           >
             Bid For This Product
           </button>
@@ -289,8 +298,6 @@ const ProductDetails = () => {
         </dialog>
       </div>
 
-
-
       {/* bids of this product  */}
       <div className="mt-10">
         <h1 className="text-2xl font-bold">
@@ -319,9 +326,7 @@ const ProductDetails = () => {
                       <td>{index + 1}</td>
 
                       <td>
-                        <p className="text-lg">
-                          {bid.bidder_name}
-                        </p>
+                        <p className="text-lg">{bid.bidder_name}</p>
                       </td>
 
                       <td className="text-lg">{bid.bid_price}</td>

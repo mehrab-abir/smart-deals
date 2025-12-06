@@ -1,6 +1,7 @@
 import React, { use, useEffect, useState } from 'react';
 import { AuthContext } from '../../Context/Authentication/AuthContext';
 import CustomLoader from '../../Components/CustomLoader';
+import Swal from 'sweetalert2';
 
 const MyProducts = () => {
   const { user,loading} = use(AuthContext);
@@ -49,6 +50,62 @@ const MyProducts = () => {
       .then((data) => setMyProducts(data))
       .catch((error) => alert(error))
   }, [user]); */
+
+  //delete a product from my products-it will delete the product from the productCellection as weel
+  const deleteProduct = (id)=>{
+    Swal.fire({
+          title: "Are you sure?",
+          text: "You won't be able to revert this!",
+          icon: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#3085d6",
+          cancelButtonColor: "#d33",
+          confirmButtonText: "Yes, delete it!",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            fetch(`http://localhost:3000/products/${id}`, {
+              method: "DELETE",
+            })
+              .then((res) => res.json())
+              .then((afterDelete) => {
+                if (afterDelete.deletedCount) {
+                  Swal.fire({
+                    title: "Deleted!",
+                    text: "Product Deleted.",
+                    icon: "success",
+                  });
+                }
+    
+                const remainingMyProducts = myProducts.filter((myProduct) => myProduct._id !== id);
+                setMyProducts(remainingMyProducts);
+              });
+          }
+        });
+  }
+
+  //change status to "Sold" from "pending" by clicking on "Make sold" button
+  const makeSold = (id)=>{
+    
+    fetch(`http://localhost:3000/products/${id}`,{
+      method : "PATCH",
+      headers : {
+        'content-type': 'application/json'
+      },
+      body : JSON.stringify({status : "Sold"})
+    })
+    .then(res=>res.json())
+    .then(afterUpdate=>{
+      if(afterUpdate.modifiedCount){
+        Swal.fire({
+          title: "Updated!",
+          text: "Status changed to Sold",
+          icon: "success",
+        });
+        setMyProducts(prev=>prev.map((product=>product._id === id ? {...product,status: "Sold"} : product)))
+      }
+    })
+    .catch(err =>console.log("Error updating: ",err))
+  }
 
   //sort bids based on bid_price
   const sortProducts = (sortType) => {
@@ -145,10 +202,13 @@ const MyProducts = () => {
                       <button className="btn bg-white border-blue-500 text-blue-500 text-sm px-2 py-0 hover:bg-blue-500 hover:text-white cursor-pointer">
                         Edit
                       </button>
-                      <button className="btn bg-white border-red-500 text-red-500 text-sm px-2 py-0 hover:bg-red-500 hover:text-white cursor-pointer">
+                      <button
+                        onClick={() => deleteProduct(product._id)}
+                        className="btn bg-white border-red-500 text-red-500 text-sm px-2 py-0 hover:bg-red-500 hover:text-white cursor-pointer"
+                      >
                         Delete
                       </button>
-                      <button className="btn bg-white border-green-500 text-green-500 text-sm px-2 py-0 hover:bg-green-500 hover:text-white cursor-pointer">
+                      <button onClick={()=>makeSold(product._id)} className="btn bg-white border-green-500 text-green-500 text-sm px-2 py-0 hover:bg-green-500 hover:text-white cursor-pointer">
                         Make Sold
                       </button>
                     </td>

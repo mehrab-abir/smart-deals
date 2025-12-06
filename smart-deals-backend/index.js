@@ -92,6 +92,7 @@ async function run() {
         app.get('/myproducts',verifyFirebaseToken, async(req,res)=>{
             const email = req.query.email;
 
+            //reject unauthorized access email
             if(email !== req.token_email){
                 return res.status(403).send({message : "forbidden access"});
             }
@@ -99,6 +100,25 @@ async function run() {
             const productCursor = productCollection.find({email:email}).sort({created_at:1});
             const myProducts = await productCursor.toArray();
             res.send(myProducts);
+        })
+
+        //delete a product from my products
+        app.delete('/products/:id',async (req,res)=>{
+            const id = req.params.id;
+            const afterDelete = await productCollection.deleteOne({_id : new ObjectId(id)});
+            res.send(afterDelete)
+        })
+
+        //change status to "Sold" from "pending" by clicking on "Make sold" button
+        app.patch('/products/:id',async (req,res)=>{
+            const id = req.params.id;
+            const {status} = req.body; //destructuring status as it came inside json obj
+            const afterUpdate = await productCollection.updateOne(
+                {_id : new ObjectId(id)},
+                {
+                    $set : {status : status}
+                }
+            )
         })
 
         //save user to db

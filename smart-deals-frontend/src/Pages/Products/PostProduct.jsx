@@ -1,10 +1,13 @@
 import React, { use } from 'react';
 import { AuthContext } from "../../Context/Authentication/AuthContext";
 import Swal from 'sweetalert2';
+import { useNavigate } from 'react-router';
 
 const PostProduct = () => {
 
   const {user} = use(AuthContext);
+
+  const navigate = useNavigate();
 
   const productSubmission = (e) =>{
     e.preventDefault();
@@ -55,13 +58,14 @@ const PostProduct = () => {
       .then((afterPost) => {
         if (afterPost.insertedId) {
           Swal.fire({
-            position: "top-center",
+            position: "center",
             icon: "success",
             title: "Product Posted",
             showConfirmButton: false,
             timer: 1500,
           });
           form.reset();
+          navigate('/products')
         }
       });
 
@@ -245,13 +249,13 @@ const PostProduct = () => {
             </div>
 
             {/* product description  */}
-            <div>
+            <div className='whitespace-pre-wrap'>
               <label>Simple Description of Your Product:</label>
               <br />
               <textarea
                 type="text"
                 name="description"
-                className="input outline-none w-full"
+                className="w-full outline-none p-2 border rounded resize-y whitespace-pre-wrap wrap-break-word"
                 placeholder="Write something about your product..."
                 required
               />
