@@ -109,6 +109,7 @@ const PostProduct = () => {
                   <option>Phone</option>
                   <option>PC</option>
                   <option>Furniture</option>
+                  <option>Home Appliance</option>
                   <option>Fashion</option>
                   <option>Others</option>
                 </select>

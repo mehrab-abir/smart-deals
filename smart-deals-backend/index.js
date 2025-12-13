@@ -119,6 +119,27 @@ async function run() {
                     $set : {status : status}
                 }
             )
+
+            res.send(afterUpdate);
+        })
+
+        // edit/update product info
+        app.patch('/editproducts/:id',async (req,res)=>{
+            const id= req.params.id;
+            const updatedInfo = req.body;
+
+            const afterUpdate = await productCollection.updateOne(
+                {_id : new ObjectId(id)},
+                {
+                    $set : {
+                        title : updatedInfo.title,
+                        price_min : updatedInfo.price_min,
+                        price_max : updatedInfo.price_max
+                    }
+                }
+            )
+
+            res.send(afterUpdate)
         })
 
         //save user to db

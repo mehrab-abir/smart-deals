@@ -5,6 +5,7 @@ import { useState } from "react";
 import { AuthContext } from "../../Context/Authentication/AuthContext";
 import Swal from "sweetalert2";
 import CustomLoader from "../../Components/CustomLoader";
+import { Link } from "react-router";
 
 const MyBids = () => {
   const { user,loading } = use(AuthContext);
@@ -159,19 +160,22 @@ const MyBids = () => {
                   <tr key={bid._id}>
                     <td>{index + 1}</td>
                     <td>
-                      <div className="flex items-center gap-3">
+                      <Link
+                        to={`/products/${bid.product._id}`}
+                        className="flex items-center gap-3"
+                      >
                         <div className="avatar">
                           <div className="mask mask-squircle h-12 w-12">
                             <img src={bid.product.image} alt="product image" />
                           </div>
                         </div>
                         <div>
-                          <div className="font-bold">{bid.product.title}</div>
+                          <p className="font-bold">{bid.product.title}</p>
                           <div className="text-sm opacity-50">
                             {bid.product.location}
                           </div>
                         </div>
-                      </div>
+                      </Link>
                     </td>
 
                     <td>

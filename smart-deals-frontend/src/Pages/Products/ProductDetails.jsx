@@ -205,7 +205,7 @@ const ProductDetails = () => {
           {/* in small device  */}
           <button
             onClick={() => openBidModal()}
-            className="btn w-full text-white bg-blue-700 mt-4 md:hidden"
+            className={`btn w-full text-white ${status.toLowerCase() === 'sold' ? 'bg-blue-400':'bg-blue-700' }  mt-4 md:hidden`}
             disabled={status.toLowerCase() === "sold"}
           >
             Bid For This Product
@@ -326,10 +326,10 @@ const ProductDetails = () => {
                       <td>{index + 1}</td>
 
                       <td>
-                        <p className="text-lg">{bid.bidder_name}</p>
+                        <p className="md:text-lg">{bid.bidder_name}</p>
                       </td>
 
-                      <td className="text-lg">{bid.bid_price}</td>
+                      <td className="md:text-lg">{bid.bid_price}</td>
                       {/* <td>
                         <div
                           className={`badge badge-outline ${
@@ -341,7 +341,7 @@ const ProductDetails = () => {
                           {bid.product.status.toUpperCase()}
                         </div>
                       </td> */}
-                      <td className="text-lg">
+                      <td className="md:text-lg">
                         {new Date(bid.created_at).toLocaleString()}
                       </td>
                     </tr>
