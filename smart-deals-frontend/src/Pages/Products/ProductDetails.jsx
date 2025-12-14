@@ -301,7 +301,7 @@ const ProductDetails = () => {
       {/* bids of this product  */}
       <div className="mt-10">
         <h1 className="text-2xl font-bold">
-          Bid of This Product ({productBids.length})
+          Bids of This Product ({productBids.length})
         </h1>
 
         <div className="overflow-scroll mt-10 bg-white min-h-[50vh]">

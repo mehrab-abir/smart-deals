@@ -10,7 +10,7 @@ const SingleProduct = ({product}) => {
           alt=""
           className="w-full h-72 object-cover rounded-md"
         />
-        <h3 className="text-xl font-semibold leading-snug min-h-12">{`${title} [${condition}]`}</h3>
+        <h3 className="text-xl font-semibold leading-snug min-h-14">{`${title} [${condition}]`}</h3>
         <p className="text-blue-800 font-semibold mt-1">
           ${`${price_min} - $${price_max}`}
         </p>
