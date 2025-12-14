@@ -128,9 +128,9 @@ const Header = () => {
                 <p className="text-lg font-semibold text-black mb-3">
                   {user?.displayName}
                 </p>
-                <p className="text-lg font-semibold text-black mb-3">
+                <Link to='/profile' className="text-lg text-black mb-3 hover:underline">
                   View Profile
-                </p>
+                </Link>
                 <button
                   onClick={() => handleSignOut()}
                   className="btn bg-white border-red-500 cursor-pointer hover:bg-red-500 hover:text-white"
@@ -142,18 +142,20 @@ const Header = () => {
           ) : (
             <div className="flex gap-8">
               <Link
-                to="/auth/register"
-                className="cursor-pointer text-base flex flex-col items-center"
-              >
-                <AiOutlineUserAdd className="text-xl" />
-                <span className="md:text-lg text-blue-600 hover:underline">Sign up</span>
-              </Link>
-              <Link
                 to="/auth/login"
                 className="cursor-pointer text-base flex flex-col items-center"
               >
                 <IoIosLogIn className="text-xl font-bold" />
-                <span className="md:text-lg hover:underline">Login</span>
+                <span className="md:text-lg font-semibold hover:underline">Login</span>
+              </Link>
+              <Link
+                to="/auth/register"
+                className="cursor-pointer text-base flex flex-col items-center"
+              >
+                <AiOutlineUserAdd className="text-xl" />
+                <span className="md:text-lg font-semibold text-blue-600 hover:underline">
+                  Sign up
+                </span>
               </Link>
             </div>
           )}

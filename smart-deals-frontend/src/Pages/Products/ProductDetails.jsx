@@ -36,7 +36,10 @@ const ProductDetails = () => {
   //open bid modal box
   const openBidModal = () => {
     if (!user) {
-      navigate("/auth/login");
+      navigate("/auth/login", {replace:true});
+    }
+    if(!user.emailVerified){
+      return navigate('/emailverification', {replace: true})
     }
     bidModalRef.current.showModal();
   };
@@ -175,6 +178,8 @@ const ProductDetails = () => {
               </p>
             </div>
           </div>
+
+          {/* large device  */}
           <button
             onClick={() => openBidModal()}
             className={`btn w-full h-fit py-2 text-white ${status.toLowerCase()==='sold' ? 'bg-blue-400' : 'bg-blue-700'} mt-4 hidden md:block hover:bg-blue-500`}

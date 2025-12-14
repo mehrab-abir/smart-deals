@@ -5,13 +5,20 @@ import { FcGoogle } from "react-icons/fc";
 import { FaRegEye } from "react-icons/fa6";
 import { FaRegEyeSlash } from "react-icons/fa6";
 import { AuthContext } from "../../Context/Authentication/AuthContext";
+import { useRef } from "react";
 
 const Login = () => {
-  const { loginUser, googleSignIn, setUser, setLoading } = use(AuthContext);
+  const { loginUser, googleSignIn, passwordReset, setUser, setLoading } =
+    use(AuthContext);
   const navigate = useNavigate();
   const location = useLocation();
 
   const [showPassword, setShowPassword] = useState(false);
+  const [passwordResetMessage, setPasswordResetMessage] = useState("");
+  const [resetPasswordError, setResetPasswordError] = useState("");
+
+  const resetPasswordRef = useRef();
+  const emailRef = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -113,6 +120,27 @@ const Login = () => {
       });
   };
 
+  //show password reset modal
+  const showModal = () => {
+    resetPasswordRef.current.showModal();
+  };
+
+  //send password reset link
+  const resetPassword = () => {
+    const email = emailRef.current.value;
+    setPasswordResetMessage("");
+
+    passwordReset(email)
+      .then(() => {
+        setPasswordResetMessage(
+          "If an account exists for this email, a password reset link has been sent. Please check your email, including spam"
+        );
+      })
+      .catch((error) => {
+        setResetPasswordError(error.code)        
+      });
+  };
+
   return (
     <div className="flex items-center justify-center pt-32 my-10">
       <div className="w-[90%] md:w-1/2 lg:w-1/3 px-4 py-8 bg-[#f6f6f6] shadow-md rounded-md">
@@ -166,6 +194,13 @@ const Login = () => {
             )}
           </div>
 
+          <div
+            onClick={() => showModal()}
+            className="cursor-pointer hover:underline hover:text-blue-500"
+          >
+            <p>Forgot password?</p>
+          </div>
+
           <button type="submit" className="btn bg-cyan-600 text-white w-full">
             Login
           </button>
@@ -178,6 +213,45 @@ const Login = () => {
             Login with Google
           </button>
         </form>
+
+        {/* password reset modal box */}
+        <dialog
+          ref={resetPasswordRef}
+          className="modal modal-bottom sm:modal-middle"
+        >
+          <div className="modal-box">
+            <h3 className="font-bold text-lg mb-2 text-blue-600">
+              Enter the email associated with your account
+            </h3>
+            <div>
+              <input
+                type="email"
+                name="email"
+                ref={emailRef}
+                className="input w-full outline-none"
+                required
+              />
+            </div>
+            <button
+              onClick={() => resetPassword()}
+              className="btn bg-blue-600 text-white mt-2 hover:bg-blue-900"
+            >
+              Send password reset link
+            </button>
+            <p className="text-blue-600 mt-2">{passwordResetMessage}</p>
+            <p className="text-red-600 mt-2">{resetPasswordError}</p>
+            <div className="modal-action">
+              <form method="dialog">
+                <button
+                  type="btn"
+                  className="btn bg-gray-900 hover:bg-gray-700 text-white"
+                >
+                  Cancel
+                </button>
+              </form>
+            </div>
+          </div>
+        </dialog>
       </div>
       <ToastContainer
         position="top-right"

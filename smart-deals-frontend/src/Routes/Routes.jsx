@@ -12,6 +12,8 @@ import CustomLoader from "../Components/CustomLoader";
 import ProductDetails from "../Pages/Products/ProductDetails";
 import PostProduct from "../Pages/Products/PostProduct";
 import PrivateRoute from "./PrivateRoute";
+import EmailVerification from "../Pages/Auth/EmailVerification";
+import Profile from "../Pages/Auth/Profile";
 
 const router = createBrowserRouter([
   {
@@ -69,6 +71,14 @@ const router = createBrowserRouter([
         Component: Register,
       },
     ],
+  },
+  {
+    path : '/emailverification',
+    Component : EmailVerification
+  },
+  {
+    path : '/profile',
+    Component : Profile
   },
   {
     path: "*",
