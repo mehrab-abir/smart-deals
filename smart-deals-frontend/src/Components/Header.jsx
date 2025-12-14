@@ -1,12 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Link, NavLink, useNavigate } from "react-router";
 import userIcon from './../assets/user.png'
 import { ToastContainer, toast } from "react-toastify";
 import { AuthContext } from "../Context/Authentication/AuthContext";
+import { FaRegTimesCircle } from "react-icons/fa";
 
 const Header = () => {
   const { user, signOutUser, setLoading } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const [openMenu, setOpenMenu] = useState(false);
 
   const handleSignOut = ()=>{
     signOutUser()
@@ -22,31 +25,58 @@ const Header = () => {
   return (
     <div className="py-6 shadow-md bg-base fixed w-full top-0 z-50">
       <div className="w-11/12 mx-auto flex items-center justify-between">
-        <h1 className="text-4xl font-bold">
-          Smart<span className="text-blue-800">Deals</span>
-        </h1>
+        <div className="flex items-center gap-4">
+          {/* mobile menu toggler */}
+          <div
+            onClick={() => setOpenMenu(!openMenu)}
+            className="flex flex-col items-center justify-center space-y-1 md:hidden cursor-pointer"
+          >
+            <span className="w-8 h-1 bg-black rounded-md"></span>
+            <span className="w-8 h-1 bg-black rounded-md"></span>
+            <span className="w-8 h-1 bg-black rounded-md"></span>
+          </div>
+          <h1 className="text-2xl md:text-4xl font-bold">
+            Smart<span className="text-blue-800">Deals</span>
+          </h1>
+        </div>
+
         <nav className="hidden md:flex gap-8 item-center">
-          <NavLink to="/" className="text-lg hover:underline hover:text-[#0094b5]">
+          <NavLink
+            to="/"
+            className="text-lg hover:underline hover:text-[#0094b5]"
+          >
             Home
           </NavLink>
-          <NavLink to="/products" className="text-lg hover:underline hover:text-[#0094b5]">
+          <NavLink
+            to="/products"
+            className="text-lg hover:underline hover:text-[#0094b5]"
+          >
             All Products
           </NavLink>
           {user ? (
-            <NavLink to="/myproducts" className="text-lg hover:underline hover:text-[#0094b5]">
+            <NavLink
+              to="/myproducts"
+              className="text-lg hover:underline hover:text-[#0094b5]"
+            >
               My Products
             </NavLink>
           ) : (
             ""
           )}
           {user ? (
-            <NavLink to="/mybids" className="text-lg hover:underline hover:text-[#0094b5]">
+            <NavLink
+              to="/mybids"
+              className="text-lg hover:underline hover:text-[#0094b5]"
+            >
               My Bids
             </NavLink>
           ) : (
             ""
           )}
-          <NavLink to="/postproduct" className="text-lg hover:underline hover:text-[#0094b5]">
+          <NavLink
+            to="/postproduct"
+            className="text-lg hover:underline hover:text-[#0094b5]"
+          >
             Post a Product
           </NavLink>
         </nav>
@@ -85,6 +115,54 @@ const Header = () => {
         </div>
       </div>
       <ToastContainer />
+
+      {/* menu for mobile devices */}
+      <div className={`w-full h-full fixed bg-white text-black top-0 left-0 ${openMenu ? '':'-translate-x-full'} transition-all duration-400`}>
+        <FaRegTimesCircle
+          onClick={() => setOpenMenu(!openMenu)}
+          className={`text-4xl absolute top-6 right-10 cursor-pointer opacity-0 ${openMenu ? 'opacity-100' : ''} transition-all duration-300`}
+        />
+        <nav className="flex flex-col items-center justify-center space-y-3 mt-20">
+          <NavLink onClick={()=>setOpenMenu(!openMenu)}
+            to="/"
+            className="text-lg hover:underline hover:text-[#0094b5]"
+          >
+            Home
+          </NavLink>
+          <NavLink onClick={()=>setOpenMenu(!openMenu)}
+            to="/products"
+            className="text-lg hover:underline hover:text-[#0094b5]"
+          >
+            All Products
+          </NavLink>
+          {user ? (
+            <NavLink onClick={()=>setOpenMenu(!openMenu)}
+              to="/myproducts"
+              className="text-lg hover:underline hover:text-[#0094b5]"
+            >
+              My Products
+            </NavLink>
+          ) : (
+            ""
+          )}
+          {user ? (
+            <NavLink onClick={()=>setOpenMenu(!openMenu)}
+              to="/mybids"
+              className="text-lg hover:underline hover:text-[#0094b5]"
+            >
+              My Bids
+            </NavLink>
+          ) : (
+            ""
+          )}
+          <NavLink onClick={()=>setOpenMenu(!openMenu)}
+            to="/postproduct"
+            className="text-lg hover:underline hover:text-[#0094b5]"
+          >
+            Post a Product
+          </NavLink>
+        </nav>
+      </div>
     </div>
   );
 };
