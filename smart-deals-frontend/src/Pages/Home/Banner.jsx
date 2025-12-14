@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router';
 
 const Banner = () => {
     return (
@@ -26,9 +27,9 @@ const Banner = () => {
             </div>
 
             <div className="flex gap-4 items-center">
-              <button className="btn bg-cyan-300 text-base">
+              <Link to='/products' className="btn bg-blue-500 text-white">
                 Explore All Products
-              </button>
+              </Link>
               <button className="btn bg-base text-black">Post a Product</button>
             </div>
           </div>
