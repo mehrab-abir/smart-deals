@@ -8,12 +8,15 @@ import { IoChevronDownCircleOutline } from "react-icons/io5";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { IoIosLogIn } from "react-icons/io";
 import { MdDarkMode } from "react-icons/md";
+import { CiLight } from "react-icons/ci";
 
 const Header = () => {
   const { user, signOutUser, setLoading } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const [openMenu, setOpenMenu] = useState(false); //for responsive menu/menu for small devices
+
+  const [theme, setTheme] = useState(() => localStorage.getItem("theme") || "light");
 
   const [showDropdown, setShowDropdown] = useState(false); //for user dropdown
   const dropDownRef = useRef(null);
@@ -33,11 +36,12 @@ const Header = () => {
     })
   },[])
 
-  // useEffect(()=>{
-  //   const html = document.querySelector('html');
-  //   html.setAttribute("data-theme",theme);
-  //   localStorage.setItem("theme",theme);
-  // },[theme])
+  useEffect(()=>{
+    
+    const html = document.querySelector('html');
+    html.setAttribute("data-theme",theme);
+    localStorage.setItem("theme",theme);
+  },[theme])
 
   const handleSignOut = ()=>{
     signOutUser()
@@ -51,7 +55,7 @@ const Header = () => {
   const userPicture = user?.photoURL || user?.providerData[0]?.photoURL || userIcon;
 
   return (
-    <div className="py-6 shadow-md bg-base fixed w-full top-0 z-50">
+    <div className="py-6 shadow-md bg-base fixed w-full top-0 z-50 bg-base">
       <div className="w-11/12 mx-auto flex items-center justify-between">
         <div className="flex items-center gap-4">
           {/* mobile menu toggler */}
@@ -110,7 +114,12 @@ const Header = () => {
         </nav>
 
         <div className="flex items-center justify-center">
-          <MdDarkMode className="mr-6 text-4xl cursor-pointer" />
+          {theme === "dark" ? (
+            <CiLight onClick={()=>setTheme("light")} className="mr-6 text-4xl cursor-pointer" />
+          ) : (
+            <MdDarkMode onClick={()=>setTheme("dark")} className="mr-6 text-4xl cursor-pointer" />
+          )}
+
           {user ? (
             <div ref={dropDownRef}>
               <div
