@@ -49,7 +49,7 @@ const PostProduct = () => {
       created_at: new Date(),
     };
 
-    fetch(`http://localhost:3000/products`, {
+    fetch(`https://smart-deals-backend-three.vercel.app/products`, {
       method: "POST",
       headers: {
         "content-type": "application/json",

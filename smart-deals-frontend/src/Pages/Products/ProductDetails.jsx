@@ -71,7 +71,7 @@ const ProductDetails = () => {
 
     //post this bid
     setLoading(true);
-    fetch("http://localhost:3000/bids", {
+    fetch("https://smart-deals-backend-three.vercel.app/bids", {
       method: "POST",
       headers: {
         "content-type": "application/json",
@@ -99,7 +99,7 @@ const ProductDetails = () => {
 
   //all bids of the current product
   useEffect(()=>{
-    fetch(`http://localhost:3000/bids/${_id}`)
+    fetch(`https://smart-deals-backend-three.vercel.app/bids/${_id}`)
     .then(res=>res.json())
     .then(data=>setProductBids(data))
     .catch(err=>console.log(err));

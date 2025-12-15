@@ -22,7 +22,7 @@ const MyProducts = () => {
         const token = await user.getIdToken();
 
         const res = await fetch(
-          `http://localhost:3000/myproducts?email=${user.email}`,
+          `https://smart-deals-backend-three.vercel.app/myproducts?email=${user.email}`,
           {
             headers: {
               authorization: `Bearer ${token}`,
@@ -45,7 +45,7 @@ const MyProducts = () => {
   }
 
   /* useEffect(() => {
-    fetch(`http://localhost:3000/myproducts?email=${user?.email}`,{
+    fetch(`https://smart-deals-backend-three.vercel.app/myproducts?email=${user?.email}`,{
       headers : {
         authorization: `Bearer ${user?.accessToken}`
       }
@@ -68,7 +68,7 @@ const MyProducts = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/products/${id}`, {
+        fetch(`https://smart-deals-backend-three.vercel.app/products/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())
@@ -92,7 +92,7 @@ const MyProducts = () => {
 
   //change status to "Sold" from "pending" by clicking on "Make sold" button
   const makeSold = (id) => {
-    fetch(`http://localhost:3000/products/${id}`, {
+    fetch(`https://smart-deals-backend-three.vercel.app/products/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",
@@ -119,7 +119,7 @@ const MyProducts = () => {
 
   //list a product again after it is marked sold
   const ListAgain = (id) => {
-    fetch(`http://localhost:3000/products/${id}`,{
+    fetch(`https://smart-deals-backend-three.vercel.app/products/${id}`,{
       method : 'PATCH',
       headers : {
         'content-type' : 'application/json'
@@ -161,7 +161,7 @@ const MyProducts = () => {
       price_max,
     };
 
-    fetch(`http://localhost:3000/editproducts/${id}`, {
+    fetch(`https://smart-deals-backend-three.vercel.app/editproducts/${id}`, {
       method: "PATCH",
       headers: {
         "content-type": "application/json",

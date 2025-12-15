@@ -22,7 +22,7 @@ const MyBids = () => {
         const token = await user.getIdToken(); 
 
         const res = await fetch(
-          `http://localhost:3000/mybids?email=${user.email}`,
+          `https://smart-deals-backend-three.vercel.app/mybids?email=${user.email}`,
           {
             headers: {
               authorization: `Bearer ${token}`,
@@ -53,7 +53,7 @@ const MyBids = () => {
 
 
  /*  useEffect(() => {
-    fetch(`http://localhost:3000/mybids?email=${user?.email}`,{
+    fetch(`https://smart-deals-backend-three.vercel.app/mybids?email=${user?.email}`,{
       headers : {
         authorization : `Bearer ${user.accessToken}`
       }
@@ -75,7 +75,7 @@ const MyBids = () => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/mybids/${id}`, {
+        fetch(`https://smart-deals-backend-three.vercel.app/mybids/${id}`, {
           method: "DELETE",
         })
           .then((res) => res.json())

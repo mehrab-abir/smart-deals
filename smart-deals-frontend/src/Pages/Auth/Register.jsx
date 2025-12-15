@@ -40,7 +40,7 @@ const Register = () => {
           navigate(location.state || "/");
 
           //save this user to database
-          fetch("http://localhost:3000/users", {
+          fetch("https://smart-deals-backend-three.vercel.app/users", {
             method: "POST",
             headers: {
               "content-type": "application/json",
@@ -102,7 +102,7 @@ const Register = () => {
         navigate(location.state || "/");
 
         //save this user to database
-        fetch("http://localhost:3000/users", {
+        fetch("https://smart-deals-backend-three.vercel.app/users", {
           method: "POST",
           headers: {
             "content-type": "application/json",

@@ -23,19 +23,19 @@ const router = createBrowserRouter([
       {
         index: true,
         Component: Home,
-        loader: () => fetch("http://localhost:3000/products"),
+        loader: () => fetch("https://smart-deals-backend-three.vercel.app/products"),
         hydrateFallbackElement: <CustomLoader></CustomLoader>,
       },
       {
         path: "products",
         Component: Products,
-        loader: () => fetch("http://localhost:3000/products"),
+        loader: () => fetch("https://smart-deals-backend-three.vercel.app/products"),
         hydrateFallbackElement: <CustomLoader></CustomLoader>,
       },
       {
         path: "products/:id",
         Component: ProductDetails,
-        loader: ({ params }) => fetch(`http://localhost:3000/products/${params.id}`),
+        loader: ({ params }) => fetch(`https://smart-deals-backend-three.vercel.app/products/${params.id}`),
         hydrateFallbackElement: <CustomLoader></CustomLoader>
       },
       {
