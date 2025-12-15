@@ -7,6 +7,7 @@ import { FaRegTimesCircle } from "react-icons/fa";
 import { IoChevronDownCircleOutline } from "react-icons/io5";
 import { AiOutlineUserAdd } from "react-icons/ai";
 import { IoIosLogIn } from "react-icons/io";
+import { MdDarkMode } from "react-icons/md";
 
 const Header = () => {
   const { user, signOutUser, setLoading } = useContext(AuthContext);
@@ -32,6 +33,12 @@ const Header = () => {
     })
   },[])
 
+  // useEffect(()=>{
+  //   const html = document.querySelector('html');
+  //   html.setAttribute("data-theme",theme);
+  //   localStorage.setItem("theme",theme);
+  // },[theme])
+
   const handleSignOut = ()=>{
     signOutUser()
     .then(()=>{
@@ -50,34 +57,34 @@ const Header = () => {
           {/* mobile menu toggler */}
           <div
             onClick={() => setOpenMenu(!openMenu)}
-            className="flex flex-col items-center justify-center space-y-1 md:hidden cursor-pointer"
+            className="flex flex-col justify-center space-y-1 md:hidden cursor-pointer"
           >
-            <span className="w-8 h-1 bg-black rounded-md"></span>
-            <span className="w-8 h-1 bg-black rounded-md"></span>
-            <span className="w-8 h-1 bg-black rounded-md"></span>
+            <span className="w-7 h-1 bg-gray-500 rounded-md"></span>
+            <span className="w-5 h-1 bg-gray-500 rounded-md"></span>
+            <span className="w-7 h-1 bg-gray-500 rounded-md"></span>
           </div>
           <h1 className="text-2xl md:text-3xl lg:text-4xl font-bold">
-            Smart<span className="text-blue-800">Deals</span>
+            Smart<span className="text-accent">Deals</span>
           </h1>
         </div>
 
         <nav className="hidden md:flex gap-8 item-center text-center ml-4">
           <NavLink
             to="/"
-            className="text-sm lg:text-lg hover:underline hover:text-[#0094b5]"
+            className="text-sm lg:text-lg hover:underline hover:text-primary"
           >
             Home
           </NavLink>
           <NavLink
             to="/products"
-            className="text-sm lg:text-lg hover:underline hover:text-[#0094b5]"
+            className="text-sm lg:text-lg hover:underline hover:text-primary"
           >
             All Products
           </NavLink>
           {user ? (
             <NavLink
               to="/myproducts"
-              className="text-sm lg:text-lg hover:underline hover:text-[#0094b5]"
+              className="text-sm lg:text-lg hover:underline hover:text-primary"
             >
               My Products
             </NavLink>
@@ -87,7 +94,7 @@ const Header = () => {
           {user ? (
             <NavLink
               to="/mybids"
-              className="text-sm lg:text-lg hover:underline hover:text-[#0094b5]"
+              className="text-sm lg:text-lg hover:underline hover:text-primary"
             >
               My Bids
             </NavLink>
@@ -96,12 +103,14 @@ const Header = () => {
           )}
           <NavLink
             to="/postproduct"
-            className="text-sm lg:text-lg hover:underline hover:text-[#0094b5]"
+            className="text-sm lg:text-lg hover:underline hover:text-primary"
           >
             Post a Product
           </NavLink>
         </nav>
-        <div>
+
+        <div className="flex items-center justify-center">
+          <MdDarkMode className="mr-6 text-4xl cursor-pointer" />
           {user ? (
             <div ref={dropDownRef}>
               <div
@@ -119,21 +128,21 @@ const Header = () => {
 
               {/* user dropdown box */}
               <div
-                className={`w-52 flex flex-col p-3 bg-white rounded-xl absolute top-20 right-2 shadow-xl ${
+                className={`w-52 flex flex-col p-3 bg-surface rounded-xl absolute top-20 right-2 shadow-xl ${
                   showDropdown
                     ? "opacity-100 mt-0 pointer-events-auto"
                     : "opacity-0 mt-5 pointer-events-none"
                 } transition-all duration-500`}
               >
-                <p className="text-lg font-semibold text-black mb-3">
+                <p className="text-lg font-semibold mb-3">
                   {user?.displayName}
                 </p>
-                <Link to='/profile' className="text-lg text-black mb-3 hover:underline">
+                <Link to="/profile" className="text-base mb-3 hover:underline">
                   View Profile
                 </Link>
                 <button
                   onClick={() => handleSignOut()}
-                  className="btn bg-white border-red-500 cursor-pointer hover:bg-red-500 hover:text-white"
+                  className="btn bg-base border-red-500 cursor-pointer hover:bg-red-500 hover:text-red-500"
                 >
                   Log Out
                 </button>
@@ -146,14 +155,16 @@ const Header = () => {
                 className="cursor-pointer text-base flex flex-col items-center"
               >
                 <IoIosLogIn className="text-xl font-bold" />
-                <span className="md:text-lg font-semibold hover:underline">Login</span>
+                <span className="md:text-lg font-semibold hover:underline">
+                  Login
+                </span>
               </Link>
               <Link
                 to="/auth/register"
                 className="cursor-pointer text-base flex flex-col items-center"
               >
                 <AiOutlineUserAdd className="text-xl" />
-                <span className="md:text-lg font-semibold text-blue-600 hover:underline">
+                <span className="md:text-lg font-semibold text-white hover:underline">
                   Sign up
                 </span>
               </Link>
@@ -165,7 +176,7 @@ const Header = () => {
 
       {/* menu for mobile devices */}
       <div
-        className={`w-full h-full fixed bg-white text-black top-0 left-0 ${
+        className={`w-full h-full fixed bg-surface text-acccent top-0 left-0 ${
           openMenu ? "" : "-translate-x-full"
         } transition-all duration-400`}
       >

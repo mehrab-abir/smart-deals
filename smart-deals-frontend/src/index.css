@@ -4,24 +4,131 @@
 }
 
 [data-theme="light"] {
+  /* Backgrounds */
   .bg-base {
+    background-color: #F4F4F4;
+  }
+
+  .bg-surface {
     background-color: #ffffff;
   }
+
+  .bg-primary {
+    background-color: #402E7A;
+  }
+
+  .bg-secondary {
+    background-color: #4C3BCF;
+  }
+
+  .bg-accent {
+    background-color: #4B70F5;
+  }
+  .bg-pending{
+    background-color: #cec80e;
+  }
+
+  /* Text */
   .text-base {
-    color : #363636
+    color: #363636;
+  }
+
+  .text-primary {
+    color: #402E7A;
+  }
+
+  .text-secondary {
+    color: #4C3BCF;
+  }
+
+  .text-accent {
+    color: #4B70F5;
+  }
+  .text-white{
+    color : #ffffff;
+  }
+
+  .text-muted {
+    color: #6b6b6b;
   }
 }
 
+/* 🌞 LIGHT THEME */
+[data-theme="light"] {
+  --gradient-primary: linear-gradient(
+    to top,
+    #9cecfb,
+    #65c7f7,
+    #0052d4
+  );
+}
+
+/* 🌙 DARK THEME */
 [data-theme="dark"] {
+  --gradient-primary: linear-gradient(
+    to right,
+    #000428,
+    #004e92
+  );
+}
+
+.bg-gradient-primary {
+  background: var(--gradient-primary);
+}
+
+
+[data-theme="dark"] {
+  /* Backgrounds */
   .bg-base {
-    background-color: #004544;
+    background-color: #001F3F;
   }
+
+  .bg-surface {
+    background-color: #003355;
+  }
+
+  .bg-primary {
+    background-color: #005461;
+  }
+
+  .bg-secondary {
+    background-color: #018790;
+  }
+
+  .bg-accent {
+    background-color: #00B7B5;
+  }
+  .bg-pending{
+    background-color: #cece00;
+  }
+
+  /* Text */
   .text-base {
-    color : #fafafa;
+    color: #ededed;
+  }
+
+  .bg-primary {
+    color: #00B7B5;
+  }
+
+  .text-secondary {
+    color: #018790;
+  }
+
+  .text-accent {
+    color: #00e5e1;
+  }
+  .text-white{
+    color : #ffffff;
+  }
+
+  .text-muted {
+    color: #9bbec8;
   }
 }
+
 
 .active{
   text-decoration: underline;
-  color: #0094b5;
+  color: #009fb7;
 }

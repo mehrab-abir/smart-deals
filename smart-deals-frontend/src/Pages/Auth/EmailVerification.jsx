@@ -35,7 +35,7 @@ const EmailVerification = () => {
 
                      <p className='mt-3 text-blue-900 font-semibold'>{verifyMessage}</p>
 
-                     <button onClick={()=>verify()} className='btn bg-blue-900 text-white mt-4 hover:bg-blue-800'>Verify Now</button>
+                     <button onClick={()=>verify()} className='btn bg-primary text-white mt-4 hover:bg-primary'>Verify Now</button>
                 </div>
                
             </div>

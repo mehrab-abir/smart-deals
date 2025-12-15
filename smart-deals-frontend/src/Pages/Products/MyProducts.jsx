@@ -222,12 +222,12 @@ const MyProducts = () => {
 
       <div className="flex items-center justify-center mt-6">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn m-1 bg-white">
+          <div tabIndex={0} role="button" className="btn m-1 bg-secondary text-white border-blue-500">
             Sort By Bid Price
           </div>
           <ul
             tabIndex="-1"
-            className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+            className="dropdown-content menu bg-base-200 rounded-box z-1 w-52 p-2 shadow-sm"
           >
             <li onClick={() => sortProducts("desc")}>
               <a>High -&gt; Low</a>
@@ -239,7 +239,7 @@ const MyProducts = () => {
         </div>
       </div>
 
-      <div className="overflow-scroll mt-10 bg-white min-h-[50vh]">
+      <div className="overflow-scroll mt-10 bg-surface text-base min-h-[50vh]">
         {myProducts.length === 0 ? (
           noProduct
         ) : (
@@ -298,14 +298,14 @@ const MyProducts = () => {
                         <div className="flex gap-2 items-center">
                           <button
                             onClick={() => openEditModal(product)}
-                            className="btn bg-white border-blue-500 text-blue-500 text-sm px-2 py-0 hover:bg-blue-500 hover:text-white cursor-pointer"
+                            className="btn bg-base border-blue-500 text-accent text-sm px-2 py-0 hover:bg-secondary hover:text-accent cursor-pointer"
                             disabled={product.status.toLowerCase() === "sold"}
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => deleteProduct(product._id)}
-                            className="btn bg-white border-red-500 text-red-500 text-sm px-2 py-0 hover:bg-red-500 hover:text-white cursor-pointer"
+                            className="btn border-red-500 text-sm px-2 py-0 cursor-pointer"
                           >
                             Delete
                           </button>
@@ -313,14 +313,14 @@ const MyProducts = () => {
                           {product.status.toLowerCase() === "sold" ? (
                             <button
                               onClick={() => ListAgain(product._id)}
-                              className="btn bg-white border-green-500 text-green-500 text-sm px-2 py-0 hover:bg-green-500 hover:text-white cursor-pointer"
+                              className="btn bg-base border-green-500! text-green-500! hover:text-secondary! text-sm px-2 py-0 cursor-pointer"
                             >
                               List Again
                             </button>
                           ) : (
                             <button
                               onClick={() => makeSold(product._id)}
-                              className="btn bg-white border-green-500 text-green-500 text-sm px-2 py-0 hover:bg-green-500 hover:text-white cursor-pointer"
+                              className="btn bg-base border-green-500! text-green-500! text-sm px-2 py-0 hover:bg-green-! hover:text-secondary! cursor-pointer"
                             >
                               Make Sold
                             </button>
@@ -341,7 +341,7 @@ const MyProducts = () => {
           }
         }} onClose={()=>setEditProduct(null)}>
           <div className="modal-box">
-            <h3 className="font-semibold text-blue-600 text-lg mb-5">
+            <h3 className="font-semibold text-white text-lg mb-5">
               Edit Product
             </h3>
 
@@ -385,7 +385,7 @@ const MyProducts = () => {
 
                 <button
                   type="submit"
-                  className="btn bg-blue-700 text-white hover:bg-blue-500"
+                  className="btn bg-navy-medium text-white hover:bg-navy-light"
                 >
                   Save Changes
                 </button>

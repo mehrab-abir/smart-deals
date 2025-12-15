@@ -115,12 +115,12 @@ const MyBids = () => {
   return (
     <div className="w-11/12 mx-auto pt-28 mb-10">
       <h1 className="text-4xl font-bold text-center">
-        My Bids: <span className="text-blue-500">({bids.length})</span>
+        My Bids: <span className="text-navy-mild">({bids.length})</span>
       </h1>
 
       <div className="flex items-center justify-center mt-6">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn m-1 bg-white">
+          <div tabIndex={0} role="button" className="btn m-1 bg-primary text-accent border-blue-500">
             Sort By Bid Price
           </div>
           <ul
@@ -137,7 +137,7 @@ const MyBids = () => {
         </div>
       </div>
 
-      <div className="overflow-scroll mt-10 bg-white min-h-[50vh]">
+      <div className="overflow-scroll mt-10 bg-surface min-h-[50vh]">
         {bids.length === 0 ? (
           noBidsMsg
         ) : (
@@ -213,7 +213,7 @@ const MyBids = () => {
                     <td>
                       <button
                         onClick={() => deleteBid(bid._id)}
-                        className="btn bg-white border-red-500 text-red-500 text-sm px-2 py-0 hover:bg-red-500 hover:text-white cursor-pointer"
+                        className="btn border-red-500 text-sm px-2 py-0 cursor-pointer"
                       >
                         Delete
                       </button>

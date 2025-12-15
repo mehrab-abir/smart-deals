@@ -7,7 +7,7 @@ const PostProduct = () => {
   const { user } = use(AuthContext);
   const navigate = useNavigate();
 
-  console.log(user);
+  // console.log(user);
 
   if (!user.emailVerified) {
     return <Navigate to='/emailverification' replace></Navigate>
@@ -30,22 +30,6 @@ const PostProduct = () => {
     const condition = form.condition.value;
     const usage = form.usage.value;
     const description = form.description.value;
-
-    console.log({
-      title,
-      price_min,
-      price_max,
-      email,
-      category,
-      image,
-      location,
-      seller_name,
-      seller_image,
-      seller_contact,
-      condition,
-      usage,
-      description,
-    });
 
     const newProduct = {
       title,
@@ -90,10 +74,10 @@ const PostProduct = () => {
 
   return (
     <div className="w-11/12 mx-auto pt-32 mb-20">
-      <h1 className="text-5xl font-bold text-center">
-        Post a <span className="text-blue-800">Product</span>
+      <h1 className="text-muted text-5xl font-bold text-center">
+        Post a <span className="text-navy-dark">Product</span>
       </h1>
-      <div className="mt-10 p-4 shadow-lg md:w-2/3 mx-auto bg-white rounded-md text-gray-700">
+      <div className="mt-10 p-4 shadow-lg md:w-2/3 mx-auto bg-surface rounded-md text-muted">
         <form onSubmit={(e) => productSubmission(e)} className="space-y-3">
           {/* product info */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
@@ -273,13 +257,13 @@ const PostProduct = () => {
             <textarea
               type="text"
               name="description"
-              className="w-full outline-none p-2 border rounded resize-y whitespace-pre-wrap wrap-break-word"
+              className="w-full outline-none p-2 border border-gray-500 rounded resize-y whitespace-pre-wrap wrap-break-word"
               placeholder="Write something about your product..."
               required
             />
           </div>
 
-          <button type="submit" className="btn bg-blue-900 text-white w-full">
+          <button type="submit" className="btn bg-secondary border border-cyan-500 text-white w-full">
             Post
           </button>
         </form>

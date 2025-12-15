@@ -10,7 +10,7 @@ const RecentProducts = () => {
       <div className="w-11/12 mx-auto my-10">
         <div className="w-11/12 mx-auto">
           <h1 className="text-4xl font-bold text-center mb-6">
-            Recent <span className="text-blue-800">Products</span>
+            Recent <span className="text-navy-dark">Products</span>
           </h1>
         </div>
 

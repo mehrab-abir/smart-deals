@@ -196,7 +196,7 @@ async function run() {
                 res.send(result);
             }
             catch(err){
-                console.error(err);
+                // console.error(err);
                 res.status(500).send({message: "Failed to load bids"});
             }
             

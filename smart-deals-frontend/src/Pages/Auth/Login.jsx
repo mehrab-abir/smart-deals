@@ -149,7 +149,7 @@ const Login = () => {
         </h1>
         <p className="text-center mt-2">
           Don't have an account?{" "}
-          <Link to="/auth/register" className="text-blue-800 underline">
+          <Link to="/auth/register" className="text-navy-dark underline">
             Register Here
           </Link>
         </p>
@@ -196,7 +196,7 @@ const Login = () => {
 
           <div
             onClick={() => showModal()}
-            className="cursor-pointer hover:underline hover:text-blue-500"
+            className="cursor-pointer hover:underline hover:text-navy-mild"
           >
             <p>Forgot password?</p>
           </div>
@@ -220,7 +220,7 @@ const Login = () => {
           className="modal modal-bottom sm:modal-middle"
         >
           <div className="modal-box">
-            <h3 className="font-bold text-lg mb-2 text-blue-600">
+            <h3 className="font-bold text-lg mb-2 text-white">
               Enter the email associated with your account
             </h3>
             <div>
@@ -234,11 +234,11 @@ const Login = () => {
             </div>
             <button
               onClick={() => resetPassword()}
-              className="btn bg-blue-600 text-white mt-2 hover:bg-blue-900"
+              className="btn bg-blue-600 text-white mt-2 hover:bg-primary"
             >
               Send password reset link
             </button>
-            <p className="text-blue-600 mt-2">{passwordResetMessage}</p>
+            <p className="text-white mt-2">{passwordResetMessage}</p>
             <p className="text-red-600 mt-2">{resetPasswordError}</p>
             <div className="modal-action">
               <form method="dialog">
