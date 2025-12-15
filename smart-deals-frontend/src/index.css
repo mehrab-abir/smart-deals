@@ -3,8 +3,8 @@
   themes: light --default, dark --prefersdark, cupcake;
 }
 
-[data-theme="light"] {
-  /* Backgrounds */
+/* [data-theme="light"] {
+
   .bg-base {
     background-color: #F4F4F4;
   }
@@ -28,7 +28,6 @@
     background-color: #cec80e;
   }
 
-  /* Text */
   .text-base {
     color: #363636;
   }
@@ -51,7 +50,122 @@
   .text-muted {
     color: #6b6b6b;
   }
+} */
+
+[data-theme="light"] {
+  /* =======================
+     Backgrounds
+  ======================= */
+
+  /* Main app background */
+  .bg-base {
+    background-color: #e7ecef;
+  }
+
+  /* Cards, modals, surfaces */
+  .bg-surface {
+    background-color: #ffffff;
+  }
+
+  /* Primary brand color */
+  .bg-primary {
+    background-color: #274c77;
+  }
+
+  /* Secondary brand color */
+  .bg-secondary {
+    background-color: #6096ba;
+  }
+
+  /* Accent / highlight */
+  .bg-accent {
+    background-color: #a3cef1;
+  }
+
+  /* Status colors */
+  .bg-pending {
+    background-color: #f2c94c; /* warm yellow – works well with blue palette */
+  }
+
+  .bg-success {
+    background-color: #4caf50;
+  }
+
+  .bg-danger {
+    background-color: #e63946;
+  }
+
+  /* =======================
+     Text Colors
+  ======================= */
+
+  /* Default text */
+  .text-base {
+    color: #1f2933;
+  }
+
+  /* Headings / strong text */
+  .text-primary {
+    color: #274c77;
+  }
+
+  .text-secondary {
+    color: #6096ba;
+  }
+
+  .text-accent {
+    color: #3a86ff;
+  }
+
+  .text-muted {
+    color: #8b8c89;
+  }
+
+  .text-white {
+    color: #ffffff;
+  }
+
+  .text-success {
+    color: #2e7d32;
+  }
+
+  .text-danger {
+    color: #c62828;
+  }
+
+  /* =======================
+     Borders & UI Details
+  ======================= */
+
+  .border-base {
+    border-color: #d0d7de;
+  }
+
+  .border-primary {
+    border-color: #274c77;
+  }
+
+  .border-muted {
+    border-color: #c7c7c7;
+  }
+
+  /* =======================
+     Hover Helpers
+  ======================= */
+
+  .hover-bg-primary:hover {
+    background-color: #1f3a5f;
+  }
+
+  .hover-bg-secondary:hover {
+    background-color: #4f86aa;
+  }
+
+  .hover-bg-accent:hover {
+    background-color: #91c2e8;
+  }
 }
+
 
 /* 🌞 LIGHT THEME */
 [data-theme="light"] {
@@ -132,3 +246,10 @@
   text-decoration: underline;
   color: #009fb7;
 }
+
+
+#e7ecef,
+#274c77,
+#6096ba,
+#a3cef1,
+#8b8c89,

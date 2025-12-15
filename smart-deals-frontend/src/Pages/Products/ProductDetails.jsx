@@ -190,7 +190,7 @@ const ProductDetails = () => {
           </button>
           <button
             to=""
-            className="btn w-full text-white border border-blue-500 bg-secondary mt-4 hidden md:block hover:bg-cyan-800!"
+            className="btn w-full text-white border border-blue-500 bg-primary mt-4 hidden md:block hover:bg-cyan-800!"
           >
             Add To Wishlist
           </button>
@@ -220,7 +220,7 @@ const ProductDetails = () => {
           </button>
           <button
             to=""
-            className="btn w-full text-white border border-blue-600 bg-secondary mt-4 md:hidden"
+            className="btn w-full text-white border border-blue-600 bg-primary mt-4 md:hidden"
           >
             Add To Wishlist
           </button>

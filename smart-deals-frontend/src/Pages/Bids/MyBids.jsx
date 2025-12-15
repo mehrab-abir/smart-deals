@@ -120,7 +120,7 @@ const MyBids = () => {
 
       <div className="flex items-center justify-center mt-6">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn m-1 bg-primary text-accent border-blue-500">
+          <div tabIndex={0} role="button" className="btn m-1 bg-secondary text-white border-blue-500">
             Sort By Bid Price
           </div>
           <ul

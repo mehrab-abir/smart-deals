@@ -23,7 +23,7 @@ const Banner = () => {
               </Link>
               <Link
                 to="/postproduct"
-                className="btn bg-accent text-white border-none"
+                className="btn bg-primary text-white border-none"
               >
                 Post a Product
               </Link>

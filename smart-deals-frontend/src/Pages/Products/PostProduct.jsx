@@ -263,7 +263,7 @@ const PostProduct = () => {
             />
           </div>
 
-          <button type="submit" className="btn bg-secondary border border-cyan-500 text-white w-full">
+          <button type="submit" className="btn bg-primary border border-cyan-500 text-white w-full">
             Post
           </button>
         </form>
