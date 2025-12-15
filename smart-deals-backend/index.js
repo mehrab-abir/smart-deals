@@ -109,7 +109,7 @@ async function run() {
             res.send(afterDelete)
         })
 
-        //change status to "Sold" from "pending" by clicking on "Make sold" button
+        //change status to "Sold" from "pending" by clicking on "Make sold" button and vice versa
         app.patch('/products/:id',async (req,res)=>{
             const id = req.params.id;
             const {status} = req.body; //destructuring status as it came inside json obj
