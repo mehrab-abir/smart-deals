@@ -143,7 +143,7 @@ const Login = () => {
 
   return (
     <div className="flex items-center justify-center pt-32 my-10">
-      <div className="w-[90%] md:w-1/2 lg:w-1/3 px-4 py-8 bg-[#f6f6f6] shadow-md rounded-md">
+      <div className="w-[90%] md:w-1/2 lg:w-1/3 px-4 py-8 bg-base shadow-md rounded-md">
         <h1 className="text-3xl font-bold text-center">
           Login to Your Account!
         </h1>
@@ -207,7 +207,7 @@ const Login = () => {
           <p className="text-center">Or</p>
           <button
             onClick={() => handleGoogleLogin()}
-            className="btn bg-white shadow-md"
+            className="btn bg-base border-cyan-500 hover:bg-cyan-800! hover:text-white! shadow-md"
           >
             <FcGoogle className="text-xl" />
             Login with Google
@@ -234,7 +234,7 @@ const Login = () => {
             </div>
             <button
               onClick={() => resetPassword()}
-              className="btn bg-blue-600 text-white mt-2 hover:bg-primary"
+              className="btn bg-primary border-none text-white mt-2 hover:bg-primary"
             >
               Send password reset link
             </button>

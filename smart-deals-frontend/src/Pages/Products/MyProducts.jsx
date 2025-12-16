@@ -298,14 +298,14 @@ const MyProducts = () => {
                         <div className="flex gap-2 items-center">
                           <button
                             onClick={() => openEditModal(product)}
-                            className="btn bg-base border-blue-500 text-accent text-sm px-2 py-0 hover:bg-secondary hover:text-accent cursor-pointer"
+                            className="btn bg-base border-blue-500 text-blue-500 text-sm px-2 py-0 hover:bg-secondary hover:text-accent cursor-pointer"
                             disabled={product.status.toLowerCase() === "sold"}
                           >
                             Edit
                           </button>
                           <button
                             onClick={() => deleteProduct(product._id)}
-                            className="btn border-red-500 text-sm px-2 py-0 cursor-pointer"
+                            className="btn border-red-500 text-sm px-2 py-0 cursor-pointer hover:text-red-500!"
                           >
                             Delete
                           </button>
@@ -313,14 +313,14 @@ const MyProducts = () => {
                           {product.status.toLowerCase() === "sold" ? (
                             <button
                               onClick={() => ListAgain(product._id)}
-                              className="btn bg-base border-green-500! text-green-500! hover:text-secondary! text-sm px-2 py-0 cursor-pointer"
+                              className="btn bg-base border-green-500! hover:text-green-500! text-sm px-2 py-0 cursor-pointer"
                             >
                               List Again
                             </button>
                           ) : (
                             <button
                               onClick={() => makeSold(product._id)}
-                              className="btn bg-base border-green-500! text-green-500! text-sm px-2 py-0 hover:bg-green-! hover:text-secondary! cursor-pointer"
+                              className="btn bg-base border-green-500! text-sm px-2 py-0 hover:bg-green-! hover:text-green-500! cursor-pointer"
                             >
                               Make Sold
                             </button>
@@ -385,7 +385,7 @@ const MyProducts = () => {
 
                 <button
                   type="submit"
-                  className="btn bg-navy-medium text-white hover:bg-navy-light"
+                  className="btn bg-secondary text-white hover:bg-cyan-700!"
                 >
                   Save Changes
                 </button>

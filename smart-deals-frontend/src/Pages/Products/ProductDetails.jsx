@@ -35,12 +35,16 @@ const ProductDetails = () => {
   const bidModalRef = useRef();
 
   //open bid modal box
-  const openBidModal = () => {
+  const openBidModal = (status) => {
     if (!user) {
       navigate("/auth/login", {replace:true});
     }
     if(!user.emailVerified){
       return navigate('/emailverification', {replace: true})
+    }
+    if(status.toLowerCase() === 'sold'){
+      Swal.fire("Ooops! This product has already been sold, try bidding a different one!");
+      return;
     }
     bidModalRef.current.showModal();
   };
@@ -127,7 +131,6 @@ const ProductDetails = () => {
             Back to Products
           </Link>
           <h1 className="text-4xl text-accent font-bold my-4 mt-0">{title}</h1>
-
           <div className="flex justify-between items-center">
             <p className="bg-secondary text-white px-2 rounded-md w-fit">
               {category.toUpperCase()}{" "}
@@ -140,19 +143,16 @@ const ProductDetails = () => {
               {status.toUpperCase()}
             </p>
           </div>
-
           <div className="mt-4 bg-surface text-primary p-4 rounded-md">
             <p className="font-bold text-2xl text-green-500">{`$${price_min} - $${price_max}`}</p>
             <p className="text-accent">Price starts from</p>
           </div>
-
           <div className="bg-surface text-base mt-4 p-4 rounded-md">
             <h4 className="text-lg">
               <span className="font-bold">Posted:</span>{" "}
               {new Date(created_at).toLocaleString()}
             </h4>
           </div>
-
           <div className="bg-surface text-base p-4 mt-4 rounded-md">
             <h2 className="text-xl font-bold">Seller Information</h2>
             <div className="flex gap-4 items-center my-4">
@@ -180,17 +180,14 @@ const ProductDetails = () => {
 
           {/* large device  */}
           <button
-            onClick={() => openBidModal()}
-            className={`btn w-full h-fit py-2 text-accent ${
-              status.toLowerCase() === "sold" ? "bg-accent" : "bg-surface"
-            } mt-4 hidden md:block hover:bg-cyan-800! hover:text-white! border-blue-500`}
-            disabled={status.toLowerCase() === "sold"}
+            onClick={() => openBidModal(status)}
+            className={`btn w-full h-fit py-2 text-white bg-secondary mt-4 hidden md:block hover:bg-cyan-800! hover:text-white! border-none`}
           >
             Bid For This Product
           </button>
           <button
             to=""
-            className="btn w-full text-white border border-blue-500 bg-primary mt-4 hidden md:block hover:bg-cyan-800!"
+            className="btn w-full text-accent border border-cyan-700 bg-surface mt-4 hidden md:block hover:bg-cyan-800! hover:text-white!"
           >
             Add To Wishlist
           </button>
@@ -210,17 +207,14 @@ const ProductDetails = () => {
 
           {/* in small device  */}
           <button
-            onClick={() => openBidModal()}
-            className={`btn border-blue-500 w-full text-accent ${
-              status.toLowerCase() === "sold" ? "bg-accent" : "bg-surface"
-            }  mt-4 md:hidden`}
-            disabled={status.toLowerCase() === "sold"}
+            onClick={() => openBidModal(status)}
+            className={`btn w-full border-none text-white bg-secondary  mt-4 md:hidden`}
           >
             Bid For This Product
           </button>
           <button
             to=""
-            className="btn w-full text-white border border-blue-600 bg-primary mt-4 md:hidden"
+            className="btn w-full text-accent border border-blue-600 bg-surface mt-4 md:hidden"
           >
             Add To Wishlist
           </button>
@@ -301,7 +295,9 @@ const ProductDetails = () => {
             </form>
             <div className="modal-action flex items-center justify-center">
               <form method="dialog" className="w-full">
-                <button className="btn w-full bg-gray-600 text-white">Cancel</button>
+                <button className="btn w-full bg-gray-600 text-white">
+                  Cancel
+                </button>
               </form>
             </div>
           </div>

@@ -3,7 +3,7 @@
   themes: light --default, dark --prefersdark, cupcake;
 }
 
-/* [data-theme="light"] {
+[data-theme="light"] {
 
   .bg-base {
     background-color: #F4F4F4;
@@ -50,41 +50,36 @@
   .text-muted {
     color: #6b6b6b;
   }
-} */
+}
 
-[data-theme="light"] {
-  /* =======================
-     Backgrounds
-  ======================= */
-
-  /* Main app background */
+/* [data-theme="light"] {
   .bg-base {
     background-color: #e7ecef;
   }
 
-  /* Cards, modals, surfaces */
+
   .bg-surface {
     background-color: #ffffff;
   }
 
-  /* Primary brand color */
+
   .bg-primary {
     background-color: #274c77;
   }
 
-  /* Secondary brand color */
+
   .bg-secondary {
     background-color: #6096ba;
   }
 
-  /* Accent / highlight */
+
   .bg-accent {
     background-color: #a3cef1;
   }
 
-  /* Status colors */
+
   .bg-pending {
-    background-color: #f2c94c; /* warm yellow – works well with blue palette */
+    background-color: #f2c94c; 
   }
 
   .bg-success {
@@ -95,16 +90,12 @@
     background-color: #e63946;
   }
 
-  /* =======================
-     Text Colors
-  ======================= */
 
-  /* Default text */
   .text-base {
     color: #1f2933;
   }
 
-  /* Headings / strong text */
+
   .text-primary {
     color: #274c77;
   }
@@ -133,10 +124,6 @@
     color: #c62828;
   }
 
-  /* =======================
-     Borders & UI Details
-  ======================= */
-
   .border-base {
     border-color: #d0d7de;
   }
@@ -149,10 +136,6 @@
     border-color: #c7c7c7;
   }
 
-  /* =======================
-     Hover Helpers
-  ======================= */
-
   .hover-bg-primary:hover {
     background-color: #1f3a5f;
   }
@@ -164,7 +147,7 @@
   .hover-bg-accent:hover {
     background-color: #91c2e8;
   }
-}
+} */
 
 
 /* 🌞 LIGHT THEME */

@@ -213,7 +213,7 @@ const MyBids = () => {
                     <td>
                       <button
                         onClick={() => deleteBid(bid._id)}
-                        className="btn border-red-500 text-sm px-2 py-0 cursor-pointer"
+                        className="btn border-red-500 text-sm px-2 py-0 cursor-pointer hover:text-red-500!"
                       >
                         Delete
                       </button>

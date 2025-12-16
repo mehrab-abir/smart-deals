@@ -115,9 +115,9 @@ const Header = () => {
 
         <div className="flex items-center justify-center">
           {theme === "dark" ? (
-            <CiLight onClick={()=>setTheme("light")} className="mr-6 text-4xl cursor-pointer" />
+            <CiLight onClick={()=>setTheme("light")} className="mr-3 md:mr-6 text-2xl md:text-4xl cursor-pointer" />
           ) : (
-            <MdDarkMode onClick={()=>setTheme("dark")} className="mr-6 text-4xl cursor-pointer" />
+            <MdDarkMode onClick={()=>setTheme("dark")} className="mr-3 md:mr-6 text-2xl md:text-4xl cursor-pointer" />
           )}
 
           {user ? (
@@ -158,13 +158,13 @@ const Header = () => {
               </div>
             </div>
           ) : (
-            <div className="flex gap-8">
+            <div className="flex gap-5">
               <Link
                 to="/auth/login"
                 className="cursor-pointer text-base flex flex-col items-center"
               >
                 <IoIosLogIn className="text-xl font-bold" />
-                <span className="md:text-lg font-semibold hover:underline">
+                <span className="text-sm md:text-lg font-semibold hover:underline">
                   Login
                 </span>
               </Link>
@@ -173,7 +173,7 @@ const Header = () => {
                 className="cursor-pointer text-base flex flex-col items-center"
               >
                 <AiOutlineUserAdd className="text-xl" />
-                <span className="md:text-lg font-semibold text-white hover:underline">
+                <span className="text-sm md:text-lg font-semibold hover:underline">
                   Sign up
                 </span>
               </Link>
