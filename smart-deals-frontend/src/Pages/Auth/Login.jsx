@@ -236,7 +236,7 @@ const Login = () => {
               onClick={() => resetPassword()}
               className="btn bg-primary border-none text-white mt-2 hover:bg-primary"
             >
-              Send password reset link
+              Next
             </button>
             <p className="text-white mt-2">{passwordResetMessage}</p>
             <p className="text-red-600 mt-2">{resetPasswordError}</p>
