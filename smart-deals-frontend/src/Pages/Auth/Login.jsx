@@ -217,7 +217,7 @@ const Login = () => {
         {/* password reset modal box */}
         <dialog
           ref={resetPasswordRef}
-          className="modal modal-bottom sm:modal-middle"
+          className="modal modal-middle"
         >
           <div className="modal-box">
             <h3 className="font-bold text-lg mb-2 text-white">
