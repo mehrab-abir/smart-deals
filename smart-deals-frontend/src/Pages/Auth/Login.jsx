@@ -133,16 +133,17 @@ const Login = () => {
     passwordReset(email)
       .then(() => {
         setPasswordResetMessage(
-          "If an account exists for this email, a password reset link has been sent. Please check your email, including spam"
+          "If an account exists for this email, a password reset link has been sent. Please check your email, including spam",
         );
       })
       .catch((error) => {
-        setResetPasswordError(error.code)        
+        setResetPasswordError(error.code);
       });
   };
 
   return (
     <div className="flex items-center justify-center pt-32 my-10">
+      <title>Login</title>
       <div className="w-[90%] md:w-1/2 lg:w-1/3 px-4 py-8 bg-base shadow-md rounded-md">
         <h1 className="text-3xl font-bold text-center">
           Login to Your Account!
@@ -215,10 +216,7 @@ const Login = () => {
         </form>
 
         {/* password reset modal box */}
-        <dialog
-          ref={resetPasswordRef}
-          className="modal modal-middle"
-        >
+        <dialog ref={resetPasswordRef} className="modal modal-middle">
           <div className="modal-box">
             <h3 className="font-bold text-lg mb-2 text-white">
               Enter the email associated with your account
